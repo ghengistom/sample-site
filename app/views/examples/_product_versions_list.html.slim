@@ -1,0 +1,18 @@
+ul.list-inline
+  li
+    - if user_signed_in?
+      - app_name = product.name
+    - else
+      - app_name = product.name.gsub(' Enterprise', '').gsub(' Professional', '')
+
+    = link_to app_name, examples_path(:product => product.name, :version => versions.first.name)
+    
+    - if user_signed_in? || @legacy
+      - versions.each do |v|
+        br
+  - if user_signed_in? || @legacy
+    li.pull-right 
+      = render :partial => "product_version_list_item", :object => versions.first
+      - versions.shift
+      - versions.each do |v|
+        = render :partial => "product_version_list_item", :object => v

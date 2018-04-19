@@ -1,0 +1,16 @@
+# Sample localization file for English. Add more files in this directory for other locales.
+# See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
+
+en:
+  hello: "Hello world"
+  activePDF: "ActivePDF"
+
+  # Alerts
+  access_denied: "Access Denied!"
+  missing_template: "Page not found!"
+
+  # CRUD
+  create_success: "created successfully."
+  update_success: "updated successfully."
+  delete_success: "deleted successfully."
+  delete_fail: "failed to delete!"

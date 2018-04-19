@@ -1,0 +1,43 @@
+hr
+- if user_signed_in?
+  .monkey
+    / Do admin stuff
+    span.monkey_1 = "Powered by"
+    = image_tag 'monkey.gif', :border => 0
+    span.monkey_2 = "The Monkey 2.5"
+    br
+    - quips = ["The less you have to direct an idiot to do the better off everyone is.", 
+      "Security is only great when it works otherwise it's a prison.", 
+      "Shavlik!", 
+      "It seems to randomly be going through every IP of my network, this is ridiculous.", 
+      "Where does the dll go? Microsoft \"improved\" Windows 2008 so much that I can't search for the file name...", 
+      "An exception occurred outside any specific functionality.", 
+      "He is back and better than ever!",
+      "All your examples are belong to us!",
+      "That's a clown question, bro.",
+      "Correct, you will get a mail in nearest future with updates.",
+      "Uhh... nothin'.",
+      "To anyhow see the file contents, click 'Open'.",
+      "Kindly do the needful.",
+      "these work phone is like... complicated next lvl stuff",
+      "...you are the awesome!!!",
+      "Syntactic Sugar",
+      "All your files are exactly where you left them", 
+      "Disregard this ticket. Our production box is too old.",
+      "If you look at something long enough, you will either understand it or be dead.",
+      "He scored a goal at the last second with like 10 seconds left."]
+    span.monkey_quote 
+      = "\""
+      = quips.sample
+      = "\""
+- else
+  / Do regular joe stuff
+  div.text-center
+    span Copyright &#169; #{Time.now.year} 
+    span = "#{t(:activePDF)}, Inc"
+div.text-center.small
+  - if user_signed_in?
+    / show log out
+    p = link_to "Log Out", destroy_user_session_path, method: :delete
+  - if can?(:read, :login) && !user_signed_in?
+    p = link_to "Log In", new_user_session_path

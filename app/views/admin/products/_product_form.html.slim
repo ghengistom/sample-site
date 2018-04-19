@@ -1,0 +1,14 @@
+- if @product.errors.any?
+  ul
+    - @product.errors.full_messages.each do |msg|
+      li = msg
+
+.row
+  .col-md-5
+    = form_for @product, :url => @submit_path do |f|
+
+      .form-group
+        = f.label :name
+        = f.text_field :name, :class => "form-control"
+
+      = f.submit :class => "btn btn-primary"

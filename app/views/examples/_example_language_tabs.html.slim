@@ -1,0 +1,4 @@
+- if @example.languages[n]
+  - css_class = @example.languages[n] == @language ? "active" : ""
+  - link_path = examples_path(:product => @product.name, :version => @version.name, :title => @example.title, :language => v, :snippets => params[:snippets])
+  li class="#{css_class}" = link_to n, link_path

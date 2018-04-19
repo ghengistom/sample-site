@@ -1,0 +1,9 @@
+.bundle
+.vagrant
+db/*.sqlite3
+log/*.log
+tmp/**/*
+doc/app
+public/system/attachments/*
+test/unit/code_parser/whole_tests/views/diffs/*.diff
+.DS_Store

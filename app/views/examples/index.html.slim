@@ -1,0 +1,15 @@
+.row
+  .col-md-3
+    h3 Products
+    - @active.each do |p|
+      div
+        = render :partial => "product_versions_list", :locals => {:product => p, :versions => p.versions.active.to_a}
+      
+    - if user_signed_in?
+      - if @future.count > 0
+        h4 Future
+        - @future.each do |p|
+          div
+            = render :partial => "product_versions_list", :locals => {:product => p, :versions => p.versions.future.to_a}
+  .col-md-9
+    = render 'example_none'

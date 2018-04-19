@@ -1,0 +1,11 @@
+.row
+  .col-md-12
+    - products_examples = {}
+    - @examples.each do |e|
+      - products_examples[e.products.first.name] = [] unless products_examples.has_key?(e.products.first.name)
+      - products_examples[e.products.first.name] << e
+    dl
+      - products_examples.sort.each do |product,examples|
+        dt = product
+        dd = render :partial => "example_list_item", :collection => examples, :locals => {from_search: true}
+    hr

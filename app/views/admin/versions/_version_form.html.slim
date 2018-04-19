@@ -1,0 +1,62 @@
+- if @version.errors.any?
+  ul
+    - @version.errors.full_messages.each do |msg|
+      li = msg
+
+.row
+  = form_for @version, :url => @submit_path do |f|
+    .col-md-6
+      .form-group
+        = f.label :name, "Version"
+        = f.text_field :name, :class => "form-control"
+      
+      .form-group
+        = f.label :order
+        = f.number_field :sort_order, :class => "form-control"
+        
+      .form-group
+        = f.label :product
+        = collection_select(:version, :product_id, Product.all, :id, :name, options = {}, html_options = {:class => "form-control input-sm"})
+
+      .form-group
+        = f.label :status
+        = f.select(:status, options_for_select([["Legacy", "legacy"], ["Active", "active"], ["Future", "future"]], @version[:status]), options = {}, html_options = {:class => "form-control input-sm"})
+
+      .form-group
+        = f.label :builds, "Builds"
+        = f.text_area :builds, :class => "form-control", :rows => "10"
+
+      .form-group
+        => f.check_box :beta
+        = f.label :beta
+
+    .col-md-6
+      .form-group
+        = f.label :namespace, "Namespace"
+        = f.text_field :namespace, :class => "form-control"
+
+      .form-group
+        = f.label :class_name, "Class"
+        = f.text_field :class_name, :class => "form-control"
+
+      .form-group
+        = f.label :com_object, "COM Object"
+        = f.text_field :com_object, :class => "form-control"
+
+      .form-group
+        = f.label :object_name, "Object Name"
+        = f.text_field :object_name, :class => "form-control"
+
+      .form-group
+        = f.label :docs_url, "Docs"
+        = f.text_field :docs_url, :class => "form-control"
+
+      .form-group
+        = f.label :dll_paths, "DLL(s)"
+        = f.text_area :dll_paths, :class => "form-control", :rows => "2"
+      .form-group
+        => f.check_box :use_dispose
+        = f.label :use_dispose
+
+      .text-right
+        = f.submit :class => "btn btn-primary"

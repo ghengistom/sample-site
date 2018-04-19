@@ -1,0 +1,22 @@
+- active_categories = Hash.new { |hsh, key| hsh[key] = Array.new }
+- inactive_categories = Hash.new { |hsh, key| hsh[key] = Hash.new { |hsh, key| hsh[key] = Array.new } }
+
+- examples.each do |e|
+  - e.category = Category.where(:name => "Other").first if e.category.nil?
+  - if e.status == "active" 
+    - active_categories[e.category.name] << e
+  - else
+    - inactive_categories[e.status.titlecase][e.category.name] << e
+
+dl
+  - active_categories.sort.each do |c,e|
+    dt.list_category = c
+    = render :partial => "example_list_item", :collection => e.sort_by{|e| e.title.downcase }
+
+dl
+  - inactive_categories.sort.each do |s,c|
+    hr
+    h4.list_status = s
+    - c.sort.each do |c,e|
+      dt.list_category = c
+      = render :partial => "example_list_item", :collection => e.sort_by{|e| e.title.downcase }

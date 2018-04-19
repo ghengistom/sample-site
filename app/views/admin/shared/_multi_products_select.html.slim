@@ -1,0 +1,54 @@
+- products = Hash.new
+- products[''] = ''
+- Product.order("name").each do |p|
+  - products[p.name] = p.id
+= select_tag :products_list, options_for_select(products, ""), :class => "form-control input-sm"
+#selected_products_list
+  = render :partial => "admin/shared/selected_products", :collection => selected
+= hidden_field_tag "#{model}[versions]"
+#product_versions style="display:none;"
+div style="display:none;"
+  = render :partial => "admin/shared/potential_products", :collection => potential, :locals => {:selected => selected}
+
+javascript:
+  $(document).ready(function() {
+    $('#selected_products_list > .product_versions').each(function(){
+      $('#products_list > option[value='+$(this).attr('data-value')+']').remove();
+    });
+    
+    $('#products_list').change(function(){
+      data = $(this).val();
+      text = $(this).find('option[value='+data+']').text();
+      $('#product_versions_'+data).show().appendTo('#selected_products_list');
+      $(this).val('');
+      $(this).find('option[value='+data+']').remove();
+      $('#selected_products_list').show();
+    });
+    
+    $(document).on("click", '#selected_products_list > div > a[data-delete=true]', function(){
+      data = $(this).parent().attr('data-value');
+      text = $(this).parent().attr('data-text');
+      $(this).closest('div').appendTo('#product_versions');
+      $('#products_list').append('<option value="'+data+'">'+text+'</option>');
+      return false;
+    });
+    
+    $('#selected_products_list').closest('form').submit(function(){
+      products = [];
+      $('#selected_products_list > div').each(function(){
+        ev_id = parseInt($(this).attr('data-id'));
+        product_id = parseInt($(this).attr('data-value'));
+        version_start_id = parseInt($('#version_start_'+product_id).val());
+        version_end_id = parseInt($('#version_end_'+product_id).val());
+        
+        products.push({
+          "id": ev_id,
+          "product_id": product_id,
+          "version_id_start": version_start_id,
+          "version_id_end": version_end_id
+        });
+      });
+      
+      $('##{model}_versions').val(JSON.stringify(products));
+    });
+  });

@@ -1,0 +1,26 @@
+<script type="text/javascript">
+  $(function() {
+    var availableTags = <%= raw @search_examples.to_json %>;
+    $( "#tags" ).autocomplete({
+      source: availableTags,
+      position: { my: "right top", at: "right bottom", collision: "none" },
+      close: function(event, ui) {
+        if ( event.originalEvent.type != "blur" ) {
+          $('#tags').submit();
+        }
+      }
+    });
+    
+    $('#search_image').click(function() {
+      $('#search_form').submit();
+    });
+    
+    $('#search_form').submit(function() {
+      $('.ui-autocomplete').hide();
+      if (window._gaq) {
+        var query = $('#search_form #tags').val();
+        _gaq.push(['_trackPageview', '/examples/search?search=' + query]);
+      }
+    });
+  });
+</script>

@@ -1,0 +1,8 @@
+<h1>Cookies</h1>
+<% if @cookies["my-cookie"] == "asdf" %>
+	<p>I found the "my-cookie" cookie!</p>
+<% else %>
+	<% @cookies["my-cookie"] = {:value => "asdf", :expires => 2.minute.from_now} %>
+ 	<p>I did not find the "my-cookie" cookie, so I went ahead and set it for you.</p>
+	<p>Reload the page to check if the cookie was set correctly.</p>
+<% end -%>

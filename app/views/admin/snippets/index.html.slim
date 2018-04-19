@@ -1,0 +1,18 @@
+h2 
+  => "Snippets"
+  small
+    = link_to new_admin_snippet_path do
+      i.fa.fa-plus
+
+- @categories.each do |c|
+  h4 = c.name
+  table.table
+    tr
+      th style="width: 40px" ID
+      th Name
+      th style="width: 30px"
+    - c.snippets.each do |s|
+      tr
+        td = link_to s.id, edit_admin_snippet_path(s)
+        td = link_to s.name, edit_admin_snippet_path(s)
+        td = link_to "x", admin_snippet_path(s), :method => :delete, :confirm => "Are you sure?"

@@ -1,0 +1,6 @@
+# Copyright (c) 2000 ActivePDF, Inc.
+# ActivePDF OCR 2017
+# Example generated 01/01/2000 
+
+# Using curl
+curl http://localhost:62625/api/OCR/Conversion -F "InputFile=@C:\folder\multipage.tif" -F  "OutputFile=multipage.tif" -F "OCRType=0" -F "PictureHandling=1" -F "PDFVersion=4" -F "Linearize=1" -L -O -J

@@ -1,0 +1,6 @@
+- if @product.errors.any?
+  ul
+    - @product.errors.full_messages.each do |msg|
+      li = msg
+
+= render "product_form"

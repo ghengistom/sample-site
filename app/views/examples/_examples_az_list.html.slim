@@ -1,0 +1,11 @@
+- sorted_examples = Hash.new { |hsh, key| hsh[key] = Array.new }
+
+- examples.each do |e|
+  - sorted_examples[e.status.titlecase] << e
+dl
+  dt = "Alphabetical List"
+  - sorted_examples.sort.each do |s,e|
+    - unless s == "Active"
+      h4.list_status = s
+  
+    dd = render :partial => "example_list_item", :collection => sorted_examples[s].sort_by{|e| e.title.downcase }

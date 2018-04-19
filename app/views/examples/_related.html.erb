@@ -1,0 +1,18 @@
+<% unless @example.find_related_tags.to_a.empty? %>
+	<div class="bsContent">
+		<div class="bsTitle">Related Examples</div>
+		<div class="bsSubContent">
+			<% [:methods, :properties, :advanced].each do |type| %>
+				<% unless @example_related[type].to_a.empty? %>
+					<div class="related_columns">
+					  <div class="related_titles"><%= type.to_s.titleize %></div>
+						<% @example_related[type].each do |ex| %>
+						  <%= link_to(ex.title, examples_path(:product => @product.name, :version => @version.name, :title => ex.title, :language => @language)) %><br />
+						<% end %>
+					</div>
+				<% end %>
+			<% end %>
+			<div class="related_spacer"></div>
+		</div>
+	</div>
+<% end %>

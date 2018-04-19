@@ -1,0 +1,282 @@
+/*
+ * This is a manifest file that'll automatically include all the stylesheets available in this directory
+ * and any sub-directories. You're free to add application-wide styles to this file and they'll appear at
+ * the top of the compiled file, but it's generally better to create a new file per style scope.
+ *= require_self
+ *= require font-awesome
+
+ *= require jquery-ui/jquery-ui.css
+ *= require star-rating/jquery.rating.css
+ *= require jquery-bubble-popup-v3.css
+ *= require codemirror/codemirror.css
+*/
+
+// SITE COLORS ------------------------------------------------------------------------------------
+$color_activePDF:                          #F16625; // Orange
+$color_activePDF_2:                        #263C51; // Blue
+$color_activePDF_3:                        #39CED6; // Light blue
+$color_activePDF_4:                        #112130; // Dark blue
+
+
+// BOOTSTRAP BASICS -------------------------------------------------------------------------------
+$gray-base:                                $color_activePDF_4;
+$text-color:                               $color_activePDF_4;
+$text_on_dark:                             #ffffff;
+$text-muted:                               lighten($text-color, 40%);
+
+$font-family-sans-serif:                   'Open Sans', sans-serif;
+$font-family-monospace:                    'inconsolata';
+
+$body-bg:                                  #fff; // CUSTOM #fff;
+$link-color:                               darken($color_activePDF, 0%); // CUSTOM brand-primary
+
+// $pre-bg:                                   #fAfAfA; // CUSTOM #f5f5f5;
+$btn-primary-bg:                           $color_activePDF_3;
+$nav-link-hover-bg:                        lighten($color_activePDF_2, 70%);
+$brand-primary:                            $color_activePDF_2;
+
+$tab_border_colors:                        lighten($color_activePDF_2, 60%);
+$hr-border:                                lighten($color_activePDF_2, 60%);
+
+
+// FORMS ------------------------------------------------------------------------------------------
+$input-border:                             $tab_border_colors;
+$input-color-placeholder:                  $text-muted;
+$input-color:                              $text-color;
+
+
+// TABS -------------------------------------------------------------------------------------------
+$nav-tabs-border-color:                    $tab_border_colors;
+$nav-tabs-link-hover-border-color:         $tab_border_colors;
+$nav-tabs-active-link-hover-border-color:  $tab_border_colors;
+$nav-tabs-justified-link-border-color:     $tab_border_colors;
+$nav-tabs-justified-active-link-border-color: $tab_border_colors;
+//$nav-tabs-active-link-hover-bg:            #fff; // CUSTOM @body-bg;
+
+
+// DROPDOWN ---------------------------------------------------------------------------------------
+$dropdown-bg:                              $color_activePDF_4; // CUSTOM #fff;
+$dropdown-divider-bg:                      $color_activePDF_2; // CUSTOM #e5e5e5;
+$dropdown-link-color:                      $text_on_dark; // CUSTOM @gray-dark;
+$dropdown-link-hover-color:                $text_on_dark; // CUSTOM darken(@gray-dark, 5%);
+$dropdown-link-hover-bg:                   $color_activePDF_2; // CUSTOM #f5f5f5;
+
+
+// NAVBAR -----------------------------------------------------------------------------------------
+// Basics of a navbar
+$navbar-height:                            58px; // CUSTOM 50px;
+$navbar-default-color:                     $text_on_dark; // CUSTOM #777;
+$navbar-default-bg:                        $color_activePDF_4; // CUSTOM #f8f8f8;
+
+// Navbar links
+$navbar-default-link-color:                $text_on_dark; // CUSTOM #777;
+$navbar-default-link-hover-color:          darken($text_on_dark, 15%); // CUSTOM #333;
+$navbar-default-link-active-color:         $color_activePDF_3; // CUSTOM #555;
+
+// Navbar toggle
+$navbar-default-toggle-hover-bg:           lighten($color_activePDF_4, 10%); // CUSTOM #ddd;
+$navbar-default-toggle-icon-bar-bg:        lighten($color_activePDF_4, 10%); // CUSTOM #888;
+$navbar-default-toggle-border-color:       lighten($color_activePDF_4, 10%); // CUSTOM #ddd;
+
+
+@import "bootstrap-custom";
+
+// Changes to default Bootstrap ---------------------------
+
+h1, h2, h3, h4 {
+  margin-top: 6px;
+  font-weight: 700;
+}
+
+.navbar {
+  .nav {
+    font-size: large;
+    .input-group-addon {
+      background-color: $dropdown-divider-bg;
+      border: none;
+    }
+  }
+}
+
+.navbar-nav {
+  padding-top: 7px;
+}
+
+.navbar-brand {
+  padding: 5px 0px 0px 16px;
+}
+
+.navbar-form {
+  padding-right: 0px;
+}
+
+.nav-tabs {
+  margin-bottom: 10px;
+}
+
+dt {
+  margin-top: 6px;
+}
+
+// Fix for Firefox (maybe others) with the syntax highlighter using
+// .container which is also in bootstrap so there is a conflict
+div.syntaxhighlighter .container:before,div.syntaxhighlighter .container:after {
+  content:none;
+}
+
+
+
+// Examples page specific CSS -----------------------------
+// Text Colors ------------------------
+.text_color_apdf1 {
+  color: $color_activePDF;
+}
+.text_color_apdf2 {
+  color: $color_activePDF_2;
+}
+.text_color_apdf3 {
+  color: $color_activePDF_3;
+}
+.text_color_apdf4 {
+  color: $color_activePDF_4;
+}
+
+// Menu Nav ---------------------------
+.search_input_group {
+  max-width: 300px;
+  .ui-autocomplete-input {
+    border-top-left-radius: 4px !important;
+    border-bottom-left-radius: 4px !important;
+  }
+}
+
+.search_button {
+  cursor: pointer;
+  color: $color_activePDF_3;
+}
+
+.dropdown_link_version {
+  color: #999 !important;
+}
+
+small {
+  color: $text-muted !important;
+}
+
+// Example Code Page ------------------
+// Needed for zero clipboard to work
+.d_clip_container {
+  position: relative;
+}
+
+.ace_scroller {
+  background-color: lighten($color_activePDF_4, 85%) !important;
+}
+
+.syntaxhighlighter {
+  padding: 10px 0px;
+  margin: 0px !important;
+}
+
+.custom_keyword {
+  // color: $color_activePDF !important;
+}
+
+.tab_links {
+  padding-top: 12px;
+  .tab_button_link {
+    padding-left: 2px;
+  }
+  a {
+    color: $color_activePDF_3;
+    margin-left: 4px;
+  }
+}
+
+.tab_links_code {
+  .tab_button_link {
+    margin-left: 6px;
+  }
+  a {
+    color: $color_activePDF_3;
+  }
+}
+
+.custom_pills {
+  a {
+    // margin-left: 2px;
+    padding: 4px 8px;
+  }
+  a:hover {
+    background-color: $nav-link-hover-bg;
+    color: $link-color;
+    text-decoration: none;
+    border-radius: $border-radius-base;
+  }
+}
+
+
+// CODE EDIT BOX ----------------------
+.generic_code_box {
+  border: 1px lighten($color_activePDF_2, 50%) solid;
+}
+#editor { 
+  height: auto;
+}
+pre {
+  border: none;
+}
+
+
+//  Admin Specific --------------------
+.fa-edit {
+  color: lighten($color_activePDF_2, 50%);
+}
+
+.admin_example_title {
+  color: $headings-color;
+}
+
+.form_example {
+  hr {
+    margin-top: 4px;
+    margin-bottom: 10px;
+  }
+}
+
+.list_status {
+  color: $state-danger-text;
+}
+
+
+// Footer -----------------------------
+.page_foot {
+  margin-bottom: 20px;
+}
+
+.monkey {
+  text-align: center;
+  font-weight: bold;
+  clear: both;
+}
+.monkey_1 {
+  color: $text-color;
+}
+.monkey_2 {
+  color: #5C3317;
+}
+.monkey_3 {
+  color: #5C3317;
+}
+.monkey_quote {
+  color: $text-muted;
+  font-size: .8em;
+  text-align: center;
+  font-weight: normal;
+}
+
+
+// 3rd Party -------------------------
+.solidlogo {
+  width: 16%;
+}

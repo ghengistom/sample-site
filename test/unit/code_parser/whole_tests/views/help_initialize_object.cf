@@ -1,0 +1,141 @@
+<!-- Copyright (c) 2000 ActivePDF, Inc. -->
+<!-- ActivePDF Server 2009 -->
+<!-- Example generated 01/01/2000  -->
+
+<!-- Example uses the .NET DLL which requires -->
+<!-- Coldfusion 8 or above -->
+
+<CFSCRIPT>
+// Get current path
+strPath = ExpandPath(".") & "\";
+
+
+// Instantiate Object
+objVAR = CreateObject(".NET", "NameSpace.Class", "c:\folder\path\file.dll");
+
+
+// Release Object
+objVAR = 0;
+
+// Instantiate Object
+oDC = CreateObject(".NET", "APDocConv.APDocConverter", "C:\Program Files\activePDF\DocConverter Enterprise\APDocConv.dll");
+
+
+// Release Object
+oDC = 0;
+
+// Instantiate Object
+oDCw = CreateObject(".NET", "activePDF.API.DocConverterWBE.DocConverter", "C:\Program Files\activePDF\DocConverter WBE\bin\activePDF.API.DocConverterWBE.dll");
+
+
+// Release Object
+oDCw = 0;
+
+
+// Release Object
+oMER = 0;
+
+// Instantiate Object
+oSVR = CreateObject(".NET", "APServer.Server", "C:\Program Files\activePDF\Server\bin\APServer.dll");
+
+
+// Release Object
+oSVR = 0;
+
+// Instantiate Object
+oTK = CreateObject(".NET", "APToolkitNET.Toolkit", "C:\Program Files\activePDF\Toolkit\DotNetComponent\2.0\APToolkitNET.dll");
+
+
+// Release Object
+oTK = 0;
+
+// Instantiate Object
+// For WebGrabber in ColdFusion you must use a proxy DLL
+oWG = CreateObject(".NET", "", "");
+
+
+// Release Object
+oWG = 0;
+
+
+// Release Object
+oXT = 0;
+
+.with.();
+.with.toolkit();
+// Instantiate Object
+// For WebGrabber in ColdFusion you must use a proxy DLL
+oWG = CreateObject(".NET", "", "");
+
+intDoPrint = oWG.DoPrint("127.0.0.1", 54545);
+if(intDoPrint != 0) {
+  Error("DoPrint", intDoPrint);
+}
+// Instantiate Object
+oTK = CreateObject(".NET", "APToolkitNET.Toolkit", "C:\Program Files\activePDF\Toolkit\DotNetComponent\2.0\APToolkitNET.dll");
+
+intOpenInputFile = oTK.OpenInputFile(strPath & "new.pdf");
+if(intOpenInputFile != 0) {
+  Error("OpenInputFile", intOpenInputFile);
+}
+oWG.Function("asdf");
+
+// Release Object
+oTK = 0;
+
+
+// Release Object
+oWG = 0;
+
+// Instantiate Object
+oDC = CreateObject(".NET", "APDocConv.APDocConverter", "C:\Program Files\activePDF\DocConverter Enterprise\APDocConv.dll");
+
+fPDF = CreateObject(".NET", "APDocConverter.FromPDFOptions", "C:\Program Files\ActivePDF\DocConverter\bin\APDocConverter.Net35.dll");
+fPDF.Set_ToWordHeadersAndFootersMode(APDocConverter.ToWordHeadersAndFootersOptions.Detect);
+oDC.SetFromPDFOptions(fPDF);
+
+// Release Object
+fPDF = 0;
+
+// Release Object
+oDC = 0;
+
+fPDF = CreateObject(".NET", "APDocConverter.FromPDFOptions", "C:\Program Files\ActivePDF\DocConverter\bin\APDocConverter.Net35.dll");
+fPDF.Set_ToWordHeadersAndFootersMode(APDocConverter.ToWordHeadersAndFootersOptions.Detect);
+// Instantiate Object
+oDC = CreateObject(".NET", "APDocConv.APDocConverter", "C:\Program Files\activePDF\DocConverter Enterprise\APDocConv.dll");
+
+// Snippet with variables
+oDC.Set_SetSnippetPropertyToInt(1);
+oDC.Set_ArrayProperty("Array of numbers and strings");
+oDC.Set_ArrayProperty(1);
+oDC.Set_ArrayProperty(18.38);
+// nil
+
+// Release Object
+oDC = 0;
+
+fPDF = CreateObject(".NET", "APDocConverter.FromPDFOptions", "C:\Program Files\ActivePDF\DocConverter\bin\APDocConverter.Net35.dll");
+fPDF.Set_ToWordHeadersAndFootersMode(APDocConverter.ToWordHeadersAndFootersOptions.Detect);
+oDC.SetFromPDFOptions(fPDF);
+
+// Release Object
+fPDF = 0;
+oXMP = .GetXmpManager();
+oXMP.Set_AddFieldsToXMP(1);
+oXMPField = oXMP.GetXMPFieldInfo("name");
+strFieldInfo = oXMPField.Get_Name();
+
+// Release Object
+oXMPField = 0;
+
+// Release Object
+oXMP = 0;
+// Process Complete
+WriteOutput("Done!");
+
+// Error Handling
+Function Error(method, outputCode) {
+  WriteOutput("Error in " & method & ": " & outputCode);
+}
+</CFSCRIPT>

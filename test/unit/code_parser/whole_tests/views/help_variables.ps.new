@@ -1,0 +1,17 @@
+# Copyright (c) 2000 ActivePDF, Inc.
+# ActivePDF Server 2009 
+# Example created 01/01/2000
+
+# Get current path
+$invocation = (Get-Variable MyInvocation).Value
+$strPath = (Split-Path $invocation.MyCommand.Path) + "\"
+
+$y = 10
+$text = ""asdf asdf""
+$arrayFiles = "["asdf.pdf", "asdf1.pdf"]"
+$arrayFiles2 = "[:"\"${strPath}cover.pdf\"", "5pageLI.pdf", "6pageAA.pdf"]"
+$text = "asdf" + "1235" + "${strPath}asdf.pdf"
+$AddBookmarksOutput = .AddBookmarks("asdf", 0, "some_page")
+.AddBookmarks("asdf", 0, $AddBookmarksOutput)
+# Process Complete
+Write-Host "Done!"

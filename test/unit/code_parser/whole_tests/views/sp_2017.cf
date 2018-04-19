@@ -1,0 +1,82 @@
+<!-- Copyright (c) 2000 ActivePDF, Inc. -->
+<!-- ActivePDF Spooler 2017 -->
+<!-- Example generated 01/01/2000  -->
+
+<!-- Example uses the .NET DLL which requires -->
+<!-- Coldfusion 8 or above -->
+
+<CFSCRIPT>
+// Get current path
+strPath = ExpandPath(".") & "\";
+
+
+// Instantiate Object
+objVAR = CreateObject(".NET", "NameSpace.Class", "c:\folder\path\file.dll");
+
+// Use the PrinterInfo object to retrieve current settings
+// and available options for the specified printer.
+oPI = objVAR.PrinterInfo("Microsoft Print to PDF");
+
+arrayAvailableDPIs = oPI.Get_AvailableDPI();
+arrayBinSources = oPI.Get_BinSources();
+isCollate = oPI.Get_Collate();
+valColorMode = oPI.Get_ColorMode();
+valDPI = oPI.Get_DPI();
+valDuplex = oPI.Get_Duplex();
+arrayFormNames = oPI.Get_FormNames();
+valOrientation = oPI.Get_Orientation();
+arrayPaperSizes = oPI.Get_PaperSizes();
+valPrinterName = oPI.Get_PrinterName();
+valTrueType = oPI.Get_TrueTypeOption();
+
+// Use the PrintJobProfile object to set specific printer settings
+// for the print job if the default options are not what is needed.
+oPJP = objVAR.PrintJobProfile("SettingsOne");
+
+oPJP.Set_BinSource(15);
+oPJP.Set_Collate(false);
+enumColorMode = CreateObject(".NET", "NameSpace.ColorMode", "c:\folder\path\file.dll");
+oPJP.Set_ColorMode(enumColorMode.Color);
+oPJP.Set_DPI(300);
+enumDuplexMode = CreateObject(".NET", "NameSpace.DuplexMode", "c:\folder\path\file.dll");
+oPJP.Set_Duplex(enumDuplexMode.Simplex);
+oPJP.Set_FormName("SampleForm");
+oPJP.Set_Nup(0);
+enumOrientation = CreateObject(".NET", "NameSpace.Orientation", "c:\folder\path\file.dll");
+oPJP.Set_Orientation(enumOrientation.Portrait);
+enumPaperSize = CreateObject(".NET", "NameSpace.PaperSize", "c:\folder\path\file.dll");
+oPJP.Set_PaperSize(enumPaperSize.Letter);
+oPJP.Set_PrinterName("Microsoft Print to PDF");
+enumPrintPages = CreateObject(".NET", "NameSpace.PrintPages", "c:\folder\path\file.dll");
+oPJP.Set_PrintOddEvenAll(enumPrintPages.AllPages);
+oPJP.Set_ProfileName("SettingsOne");
+enumPrintScaling = CreateObject(".NET", "NameSpace.PrintScaling", "c:\folder\path\file.dll");
+oPJP.Set_Scaling(enumPrintScaling.Custom);
+oPJP.Set_CustomScaling(95.0);
+enumTrueTypeOptions = CreateObject(".NET", "NameSpace.TrueTypeOptions", "c:\folder\path\file.dll");
+oPJP.Set_TrueTypeOption(enumTrueTypeOptions.Substitute);
+
+// File specific settings
+objVAR.Set_Copies(1);
+objVAR.Set_PageRange("1-2,4");
+objVAR.Set_PrintAnnotations(true);
+
+// Print a PDF
+results = objVAR.PrintFile(oPJP, strPath & "5pageLI.pdf");
+if(results.Get_SpoolerStatus() != "Success") {
+  Error("PrintFile", results, results.Get_SpoolerStatus());
+}
+
+// Release Object
+objVAR = 0;
+
+// Process Complete
+WriteOutput("Done!");
+
+// Error Handling
+Function Error(method, oResults, errorStatus) {
+  WriteOutput("Error with " & method & ": <br/>"
+    & errorStatus &  "<br/>"
+    & oResults.Get_details());
+}
+</CFSCRIPT>

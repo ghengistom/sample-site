@@ -1,0 +1,30 @@
+<!-- Copyright (c) 2000 ActivePDF, Inc. -->
+<!-- ActivePDF DocConverter Enterprise 2010 -->
+<!-- Example generated 01/01/2000  -->
+
+<!-- Example uses the .NET DLL which requires -->
+<!-- Coldfusion 8 or above -->
+
+<CFSCRIPT>
+// Get current path
+strPath = ExpandPath(".") & "\";
+
+// Instantiate Object
+oDC = CreateObject(".NET", "APDocConv.APDocConverter", "C:\Program Files\activePDF\DocConverter Enterprise\APDocConv.dll");
+
+intSubmit = oDC.Submit("127.0.0.1", 54546, strPath & "word.doc", strPath, strPath, strPath, "", "", false, "");
+if(intSubmit != 0) {
+  Error("Submit", intSubmit);
+}
+
+// Release Object
+oDC = 0;
+
+// Process Complete
+WriteOutput("Done!");
+
+// Error Handling
+Function Error(method, outputCode) {
+  WriteOutput("Error in " & method & ": " & outputCode);
+}
+</CFSCRIPT>

@@ -1,0 +1,31 @@
+<% if @feedback.errors.any? -%>
+  <% html = "<ul>" -%>
+    <% @feedback.errors.full_messages.each do |msg| -%>
+      <% html += "<li>#{msg}</li>" -%>
+    <% end -%>
+  <% html += "</ul>" -%>
+<% end %>
+<% if flash[:feedback].include? 'Thank' -%>
+  $('#feedback_flash_container').html("<%= raw escape_javascript(flash[:feedback])%>").fadeIn(1400);
+  $('#feedback_container').hide();
+<% else -%>
+  <% if @feedback.errors.any? -%>
+    <% if @feedback.rating %>
+      $('#ratings_flash_container').html("<%= raw escape_javascript(flash[:feedback]) + html %>").fadeIn(1400);
+      $('#feedback_flash_container').hide();
+    <% else %>
+      $('#feedback_flash_container').html("<%= raw escape_javascript(flash[:feedback]) + html %>").fadeIn(1400);
+      $('#ratings_flash_container').hide();
+    <% end -%>
+  <% else -%>
+    <% if @feedback.rating %>
+      $('#ratings_flash_container').html("<%= raw escape_javascript(flash[:feedback])%>").fadeIn(1400);
+      $('#ratings_container').hide();
+      $('#feedback_flash_container').hide();
+    <% else %>
+      $('#feedback_flash_container').html("<%= raw escape_javascript(flash[:feedback])%>").fadeIn(1400);
+      $('#feedback_container').show();
+      $('#ratings_flash_container').hide();
+    <% end -%>
+  <% end -%>
+<% end -%>

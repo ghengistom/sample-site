@@ -1,0 +1,22 @@
+- @asdf = {"Pellentesque eget" => 89, "Sed a risus mi" => 74, "Sed vestibulum" => 67, "In aliquam interdum" => 34, "Vestibulum quis" => 25, "Mauris tellus erat" => 16, "Fusce massa mi" => 13}
+
+h1 Lorem Ipsum
+
+p.text-justify Cras in arcu magna. Proin pellentesque libero sit amet libero semper accumsan scelerisque vel purus. Duis nibh nulla, auctor eu dignissim eu, ullamcorper ut urna. Ut metus lacus, vestibulum id porttitor quis, consequat in nunc. Pellentesque et nisl quis erat vestibulum lacinia. Nam consectetur molestie ipsum, ut vulputate dolor convallis vitae. Nullam vestibulum tortor vitae metus condimentum ac vestibulum odio volutpat. Quisque eu elit nulla. 
+
+= pie_chart(@asdf)
+
+table.table
+  thead
+    tr
+      th Lorem Ipsum
+      th Count
+  - @asdf.each do |sport, count|
+    tr
+      td = sport
+      td = count
+
+
+/ = column_chart(@asdf)
+
+/ = bar_chart(@asdf)

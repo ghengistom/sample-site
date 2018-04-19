@@ -1,0 +1,82 @@
+h3
+  / => params[:type] 
+  = "Generic Code Documentation"
+
+.row
+  .col-md-12
+    h4 Topics
+    ui.list-unstyled
+      li = link_to "Initialize Object", "#initialize_object"
+      li = link_to "Comments", "#comments"
+      li = link_to "File Paths", "#file_paths"
+      li = link_to "If Statements", "#if"
+      li = link_to "For Loops", "#for"
+      li = link_to "Select Satements", "#select"
+      li = link_to "Variables", "#variables"
+      li = link_to "Example Variables", "#variables_site"
+      li = link_to "Methods", "#methods"
+      li = link_to "Properties", "#properties"
+      li = link_to "Snippets", "#snippets"
+      li = link_to "Output Code", "#output"
+      li = link_to "Output Screen", "#putout"
+      li = link_to "HTML", "#html"
+      li = link_to "Ruby Code", "#ruby"
+
+    hr
+
+    .example_code
+      javascript:
+          aPDFMeth = "oiut968gfikuyv7go6f98tg9o86g";
+          aPDFProp = "oiut968gfikuyv7go6f98tg9o86g";
+          aPDFMeth_current = "oiut968gfikuyv7go6f98tg9o86g";
+          aPDFProp_current = "oiut968gfikuyv7go6f98tg9o86g";
+          SyntaxHighlighter.all();
+
+      / pre class="brush: rb; toolbar: false;" = @code
+
+      h4#initialize_object Initialize Object
+      pre class="help_code" id="help_code" = IO.read("#{Rails.root}/test/unit/code_parser/whole_tests/sources/help_initialize_object.rb")
+
+      h4#comments Comments
+      pre class="help_code" = IO.read("#{Rails.root}/test/unit/code_parser/whole_tests/sources/help_comments.rb")
+
+      h4#file_paths File Paths
+      pre class="help_code" = IO.read("#{Rails.root}/test/unit/code_parser/whole_tests/sources/help_file_paths.rb")
+
+      h4#if If Statements
+      pre class="help_code" = IO.read("#{Rails.root}/test/unit/code_parser/whole_tests/sources/help_if.rb")
+
+      h4#for For Loops
+      pre class="help_code" = IO.read("#{Rails.root}/test/unit/code_parser/whole_tests/sources/help_for.rb")
+
+      h4#select Select Statement
+      pre class="help_code" = IO.read("#{Rails.root}/test/unit/code_parser/whole_tests/sources/help_select.rb")
+
+      h4#variables Variables
+      pre class="help_code" = IO.read("#{Rails.root}/test/unit/code_parser/whole_tests/sources/help_variables.rb")
+
+      h4#variables_site Variables for Examples
+      pre class="help_code" = IO.read("#{Rails.root}/test/unit/code_parser/whole_tests/sources/help_variables_site.rb")
+
+      h4#methods Methods
+      pre class="help_code" = IO.read("#{Rails.root}/test/unit/code_parser/whole_tests/sources/help_methods.rb")
+
+      h4#properties Properties
+      pre class="help_code" = IO.read("#{Rails.root}/test/unit/code_parser/whole_tests/sources/help_properties.rb")
+
+      h4#snippets Snippets
+      pre class="help_code" = IO.read("#{Rails.root}/test/unit/code_parser/whole_tests/sources/help_snippets.rb").gsub("#>>>> ", "")
+
+      h4#output Output Code
+      pre class="help_code" = IO.read("#{Rails.root}/test/unit/code_parser/whole_tests/sources/help_output.rb")
+
+      h4#putout Output Screen
+      pre class="help_code" = IO.read("#{Rails.root}/test/unit/code_parser/whole_tests/sources/help_putout.rb")
+
+      h4#html HTML
+      pre class="help_code" = IO.read("#{Rails.root}/test/unit/code_parser/whole_tests/sources/help_html.rb")
+
+      h4#ruby Ruby Code
+      pre class="help_code" = IO.read("#{Rails.root}/test/unit/code_parser/whole_tests/sources/help_ruby.rb")
+
+      = render :partial => 'examples/ace_editor', :locals => {:id => "help_code", :language => "rb"}

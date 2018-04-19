@@ -1,0 +1,15 @@
+/ <!-- Snippet Category Option -->
+- unless !@snippet_categories || @snippet_categories.empty?
+  - params[:snippets] ||= {}
+
+  .code_catsnip style="margin-top: 6px;"
+    .pull-left
+      ul.list-inline.custom_pills
+        - @snippet_categories.each do |c,s|
+          span.label.label-primary style="margin-left: 6px;"
+            => c.name
+          - s.each do |name, id|
+            - css = @snippet_categories_selected[c.id] == id ? "text-muted" : nil
+            li = link_to name, examples_path(:product => @product.name, :version => @version.name, :language => @language, :snippets => params[:snippets].merge({"#{c.id}" => "#{id}"})), :class => css
+
+  .clearfix

@@ -1,0 +1,54 @@
+.row.collapse.feedback_form#feedback_form
+  .col-md-12
+
+    h4 
+      => Feedback
+      small = "Example #{@example.id}"
+
+    / Rating field
+    - style = flash[:feedback] ? "" : "display: none;"
+    h5#feedback_flash_container.text-danger style="#{style}" = flash[:feedback]
+    / #ratings_flash_container style="#{style}" = flash[:feedback]
+    / .ratings_container#ratings_container
+    /   javascript:
+    /    $(document).ready(function() {
+    /      $('.auto-submit-star').rating({
+    /        callback: function(value, link) {
+    /          $(this).submit();
+    /        }
+    /      });
+    /    });
+
+    / = form_tag feedbacks_path, :remote => true, :class => "form-inline"
+    /   = hidden_field_tag "feedback[content]", "example-#{@example.id}-#{@language}"
+    /   = hidden_field_tag :redirect, examples_path(:product => @product.name, :version => @version.name, :title => @example.title, :language => @language)
+    / - 1.upto(5) do |n|
+    /   = radio_button_tag "feedback[rating]", n, false, :class => "auto-submit-star"
+
+    #feedback_container
+      = form_for @feedback, :remote => true, html: {:role => "form", :class => ""} do |f|
+        = f.hidden_field :content, :value => "example-#{@example.id}-#{@language}", :id => "content2"
+        = hidden_field_tag :redirect, examples_path(:product => @product.name, :version => @version.name, :title => @example.title, :language => @language), :id => "redirect2"
+        table style="width: 100%;"
+          tr
+            td style="padding-right: 2px;"
+              .form-group
+                = f.label :from_name, "Name", :class => "sr-only"
+                = f.text_field :from_name, :placeholder => "Name (optional)", :class => "form-control input-sm"
+            td style="padding-left: 2px;"
+              .form-group
+                = f.label :from_email, "Email", :class => "sr-only"
+                = f.text_field :from_email, :placeholder => "Email (optional)", :type => "email", :class => "form-control input-sm"
+          tr
+            td colspan="2"
+              .form-group
+                = f.label :comment, :class => "sr-only"
+                = f.text_area :comment, :placeholder => "Comments", :class => "form-control input-sm", :rows => "4"
+          tr
+            td colspan="2"
+              .form-group
+                = f.submit "Send Feedback", :class => "btn btn-primary btn-sm pull-right", :style => "margin-left: 10px;"
+                = f.label :human_check, "What is 4 + 5?", :class => "sr-only"
+                .g-recaptcha data-sitekey="6LcbeRgUAAAAAMrXdFpPUTxdbpM6u85GQWtbMFk0"
+
+    hr style="margin-bottom: 8px"

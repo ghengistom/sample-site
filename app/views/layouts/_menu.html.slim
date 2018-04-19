@@ -1,0 +1,50 @@
+.navbar.navbar-default.navbar-static-top role="navigation"
+  .navbar-inner
+    .container.container_navbar
+      .navbar-header
+        button.navbar-toggle type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+          span.sr-only Toggle navigation
+          span.icon-bar
+          span.icon-bar
+          span.icon-bar
+        = link_to image_tag("APDF_white.png", :class => "", :style => "Width: 181px; Padding-Top: 9px;"), root_path, :class => "navbar-brand" 
+      .collapse.navbar-collapse#bs-example-navbar-collapse-1
+        ul.nav.navbar-nav
+          li.dropdown
+            = link_to "Products", "#", :class => "dropdown-toggle", :"data-toggle" => "dropdown"
+            ul.dropdown-menu
+              - products = user_signed_in? ? Product.active_or_future : Product.active
+              = render :partial => "layouts/product_menu_item", :collection => products
+              li.divider
+              li = link_to "Legacy Products", examples_legacy_index_path
+          li.dropdown
+            = link_to "Resources", "#", :class => "dropdown-toggle", :"data-toggle" => "dropdown"
+            ul.dropdown-menu
+              = render "layouts/resource_links"
+
+          - if can?(:show, :admin)
+            li.dropdown
+              = link_to "Admin", "#", :class => "dropdown-toggle", :"data-toggle" => "dropdown"
+              ul.dropdown-menu
+                / li = link_to "Examples List", admin_examples_path
+                - if can?(:manage, Example)
+                  li = link_to "New Example", new_admin_example_path
+                - if can?(:manage, Snippet)
+                  li = link_to "Snippets", admin_snippets_path
+                - if can?(:manage, Attachment)
+                  li = link_to "Attachments", admin_attachments_path
+                - if can?(:manage, Example)
+                  li = link_to "HTML Samples", samples_path
+                - if can?(:manage, :all)
+                  li.divider
+                  li = link_to "Products", admin_products_path
+                  li = link_to "Versions", admin_versions_path
+                  li = link_to "Categories", admin_categories_path
+                  li.divider
+                  li = link_to "Feedback", admin_feedback_list_path
+                  li.divider
+                  li = link_to "Users", admin_users_path
+        ul.nav.navbar-nav.navbar-right
+          li = render "layouts/search_box"
+
+div#search_results

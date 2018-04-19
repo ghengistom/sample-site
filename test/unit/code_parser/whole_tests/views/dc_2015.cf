@@ -1,0 +1,55 @@
+<!-- Copyright (c) 2000 ActivePDF, Inc. -->
+<!-- ActivePDF DocConverter 2015 -->
+<!-- Example generated 01/01/2000  -->
+
+<!-- Example uses the .NET DLL which requires -->
+<!-- Coldfusion 8 or above -->
+
+<CFSCRIPT>
+// Get current path
+strPath = ExpandPath(".") & "\";
+
+// Instantiate Object
+oDC = CreateObject(".NET", "APDocConverter.DocConverter", "C:\Program Files\activePDF\DocConverter\bin\APDocConverter.Net35.dll");
+
+// Settings specific to other formats created with from PDF conversions
+// are set using the FromPDFOptions object
+fPDF = CreateObject(".NET", "APDocConverter.FromPDFOptions", "C:\Program Files\ActivePDF\DocConverter\bin\APDocConverter.Net35.dll");
+
+// To Word options
+fPDF.Set_ToWordHeadersAndFootersMode(APDocConverter.ToWordHeadersAndFootersOptions.Detect);
+
+// To Excel options
+fPDF.Set_ToExcelAutoDetectSeparators(true);
+fPDF.Set_ToExcelTablesFromContent(APDocConverter.ToExcelTablesFromContentOptions.Default);
+
+// To Image options
+fPDF.Set_ToImagePageDPI(300);
+
+// Send the from PDF settings to DocConverter
+oDC.SetFromPDFOptions(fPDF);
+
+// Release Object
+fPDF = 0;
+
+// Convert the document from PDF to another format
+// The second parameter determines the output file format
+dcFromPDF = CreateObject(".NET", "APDocConverter.FromPDFFunction", "C:\Program Files\activePDF\DocConverter\bin\APDocConverter.Net35.dll");
+results = oDC.ConvertFromPDF(strPath & "PDF.pdf", dcFromPDF.ToWordDocX, strPath & "PDF.docx");
+if(results.Get_DocConverterStatus() != "Success") {
+  Error("ConvertFromPDF", results, results.Get_DocConverterStatus());
+}
+
+// Release Object
+oDC = 0;
+
+// Process Complete
+WriteOutput("Done!");
+
+// Error Handling
+Function Error(method, oResults, errorStatus) {
+  WriteOutput("Error with " & method & ": <br/>"
+    & errorStatus &  "<br/>"
+    & oResults.Get_details());
+}
+</CFSCRIPT>

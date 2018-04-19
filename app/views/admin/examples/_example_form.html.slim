@@ -1,0 +1,293 @@
+javascript:
+  $.ctrl('S', function(){
+    $('form.edit_example').submit();
+  });
+
+= raw version_start_end_js("example")
+
+= form_for @example, :url => @submit_path do |f|
+  input type="hidden" name="ref" value="#{request.referer}"
+  .row.form_example
+    .col-md-3
+      h3 Details
+
+      .form-group
+        => f.label :title
+        - unless @example.new_record?
+          = link_to "view", example_id_path(@example.id), :target => "_blank"
+        = f.text_field :title, :class => "form-control"
+
+      / .form-group
+      /   => f.label :display_title
+      /   = f.text_field :display_title, :class => "form-control"
+
+      .form-group
+        => f.label :description
+        = f.text_area :description, :class => "form-control", :style => "height: 94px;"
+
+      .form-group
+        = f.label :Category
+        br
+        = collection_select(:example, :category_id, Category.order("name").all, :id, :name, {}, {:class => "form-control input-sm"})
+
+      .form-group
+        = f.label :status
+        br
+        = select_tag "example[status]", options_for_select(Example.statuses, @example.status), :class => "form-control input-sm"
+      
+      javascript:
+        function updateStatus() {
+          if ( $('#clone_id').val() === "none" || $('#clone_id').val() == "") {
+            // enable status selection
+            $('#example_status').removeAttr('disabled');
+          } else {
+            // disable status selection
+            $('#example_status').attr('disabled', 'disabled');
+          }
+        }
+        
+        $(document).ready(function() {          
+          updateStatus();
+        });
+    
+      .form-group
+        = f.label :type
+        br
+        => f.radio_button(:example_type, "basic")
+        => f.label :example_type_basic, "Function"
+        => f.radio_button(:example_type, "advanced")
+        = f.label :example_type_advanced, "Advanced"
+
+      .form-group
+        => f.check_box :is_method
+        = f.label :is_method?, "Method"
+
+      hr
+
+      .form-group
+        = f.label :products
+        br
+        = render :partial => 'admin/shared/multi_products_select', :locals => {:model => "example", :selected => @example.example_versions, :potential => @example.potential_products}
+      
+      hr
+
+      .form-group
+        = f.label :languages
+        br
+        => f.check_box :cs
+        = f.label :cs, "C#"
+        br
+        => f.check_box :vb
+        = f.label :vb, "VB"
+        br
+        => f.check_box :vbs
+        = f.label :vbs, "VBS"
+        br
+        => f.check_box :asp
+        = f.label :asp, "ASP"
+        br
+        => f.check_box :ps1
+        = f.label :ps1, "PowerShell"
+        br
+        => f.check_box :php
+        = f.label :php, "PHP"
+        br
+        => f.check_box :cfm
+        = f.label :cfm, "CF"
+        br
+        => f.check_box :rb
+        = f.label :rb, "Ruby"
+        br
+        => f.check_box :shell
+        = f.label :shell, "Shell"
+        br
+        => f.check_box :html
+        = f.label :html, "HTML"
+
+      .form-group#attachments_div
+        hr
+        = f.label :attachments
+        .attachments_list
+          - Attachment.all.each do |a|
+            => check_box_tag "example[attachment_ids][]", a.id, @example.attachments.include?(a) 
+            = label_tag "example[attachment_ids][#{a.id}]", a.file_file_name
+            br
+
+      hr
+
+      .form-group
+        = f.label :video
+        = f.text_field :video, :class => "form-control"
+
+      .form-group
+        javascript:
+          $(function() {
+            // This line needs to be updated to work with SLIM
+            var availableTags = raw Example.tag_counts.collect{|t| t.name }.uniq.to_json;
+            function split( val ) {
+              return val.split( /,\s*/ );
+            }
+            function extractLast( term ) {
+              return split( term ).pop();
+            }
+
+            $( "#example_tags" )
+              // don't navigate away from the field on tab when selecting an item
+              .bind( "keydown", function( event ) {
+                if ( event.keyCode === $.ui.keyCode.TAB &&
+                    $( this ).data( "autocomplete" ).menu.active ) {
+                  event.preventDefault();
+                }
+              })
+              .autocomplete({
+                minLength: 0,
+                source: function( request, response ) {
+                  // delegate back to autocomplete, but extract the last term
+                  response( $.ui.autocomplete.filter(
+                    availableTags, extractLast( request.term ) ) );
+                },
+                focus: function() {
+                  // prevent value inserted on focus
+                  return false;
+                },
+                select: function( event, ui ) {
+                  var terms = split( this.value );
+                  // remove the current input
+                  terms.pop();
+                  // add the selected item
+                  terms.push( ui.item.value );
+                  // add placeholder to get the comma-and-space at the end
+                  terms.push( "" );
+                  this.value = terms.join( ", " );
+                  return false;
+                }
+              });
+          });
+
+        = f.label :tags
+        = f.text_field :tag_list, :class => "form-control", :id => "example_tags"
+
+      = hidden_field_tag "example[edited_by]", current_user.email
+      - if @example.new_record?
+        = hidden_field_tag "example[created_by]", current_user.email
+      - else
+        .form-group
+          = f.label :created_by
+          p = @example.created_by        
+
+        .form-group
+          = f.label :edited_by
+          p = @example.edited_by
+
+
+    .col-md-9
+      h3.pull-left Code
+      span.pull-right
+        => f.submit :class => "btn btn-primary btn-xs"
+        - unless @example.new_record?
+          => link_to "Delete", admin_example_path(@example), :class => "btn btn-danger btn-xs", :method => :delete, :confirm => "Are you sure?"
+        = link_to "help", admin_help_path(:type => "examples"), :target => "_blank", :class => "btn btn-info btn-xs"
+      .clearfix
+
+      .form-group#generic_code_container
+        => f.label :generic_code
+        .generic_code_box
+          = f.text_area :code, :class => "form-control edit_box_code"
+          = render :partial => 'admin/shared/codemirror', :locals => {:container_id => 'example_code'}
+          / br
+          / = f.text_area :code, :class => "form-control edit_box_code", :id => "editor"
+          / = render :partial => 'examples/ace_editor', :locals => {:id => 'editor', :language => 'ruby'}
+    
+      h4 Clones
+      .row
+        .col-md-6
+          .form-group
+            = f.label :clone_example, "Choose Example to Clone"
+            = select_tag "product_clone_id", options_for_select(@potential_clones[:products]), :class => "form-control input-sm"
+            - @potential_clones[:products].each do |prod|
+              = select_tag "clone_product_#{prod[1]}", options_for_select(@potential_clones[:examples][prod[1]]), :class => "clone_example_select form-control input-sm"
+
+            input id="clone_id" type="hidden" name="example[clone_id]" value="#{@example.clone_id}"
+            span id="cloned_edit_link_container" style="display: none;"
+              = link_to "edit clone", "#", :id => "cloned_edit_link", :class => "btn btn-primary btn-xs"
+
+          javascript:
+            setCloneValue = function(id) {
+              if (id == "none") {
+                $('#clone_id').val('');
+              } else {
+                $('#clone_id').val(id);
+                url = '#{edit_admin_example_path(:id => 0)}';
+                url = url.replace('0',id);
+                $('#cloned_edit_link').attr('href',url);
+              }
+            }
+            
+            getCloneValue = function() {
+              ret = $('#clone_id').val();
+              if (typeof(ret) === "undefined") {
+                return "";
+              } else {
+                return ret;
+              }
+            }
+            
+            $('#product_clone_id').change(function(){
+              product = $(this).val();
+              $('.clone_example_select').hide();
+              $('#clone_product_' + product).show();
+              setCloneValue($('#clone_product_' + product).val());
+              if ($(this).val() == "none") {
+                $('#generic_code_container').show(1000);
+                $('#attachments_div').show(1000);
+                $('#cloned_edit_link_container').hide(1000);
+                $('.clone_example_select').hide(1000);
+              } else {
+                $('#generic_code_container').hide(1000);
+                $('#cloned_edit_link_container').show(1000);
+                $('#attachments_div').hide(1000);
+              }
+              updateStatus();
+            });
+            
+            $('.clone_example_select').change(function(){
+              setCloneValue($(this).val());
+            });
+            
+            $(document).ready(function() {
+              if (getCloneValue() == "") {
+                $('.clone_example_select').hide();
+              } else {
+                $('.clone_example_select').hide();
+                $('#generic_code_container').hide();
+                $('#cloned_edit_link_container').show();
+                setCloneValue($('.clone_example_select option[value='+getCloneValue()+']').val());
+                id = $('.clone_example_select option[value='+getCloneValue()+']').parent().attr('id').match(/[0-9]+/);
+                $('#product_clone_id').val(id);
+                $('#clone_product_' + id).val(getCloneValue()).show();
+                $('#attachments_div').hide();
+              }
+            });
+
+        .col-md-6
+          - unless @example.clones.length == 0
+            .form-group
+              = f.label :clones, "Clones"
+              ul.list-unstyled
+                - @example.clones.each do |c|
+                  li = link_to c.title, edit_admin_example_path(c.id)
+
+      - unless @example.new_record? || @feedback.nil? || @feedback.empty?
+        .form-group
+          = f.label :feedback_summary
+          table.table
+            thead
+              tr
+                td Total
+                td Average rating
+                td Details
+            tbody
+              tr
+                td = @feedback.length
+                td = Feedback.average_rating_for_example_id(@example.id)
+                td = link_to "view", admin_example_feedback_path(:id => @example.id)

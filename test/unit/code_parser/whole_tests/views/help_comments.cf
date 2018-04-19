@@ -1,0 +1,15 @@
+<!-- Copyright (c) 2000 ActivePDF, Inc. -->
+<!-- ActivePDF Server 2009 -->
+<!-- Example generated 01/01/2000  -->
+
+<!-- Example uses the .NET DLL which requires -->
+<!-- Coldfusion 8 or above -->
+
+<CFSCRIPT>
+// Hello World!
+// Hello .NET!
+// Hello .NET!
+// You can display a \ and also a " in the comment
+// Process Complete
+WriteOutput("Done!");
+</CFSCRIPT>

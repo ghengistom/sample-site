@@ -1,0 +1,9 @@
+tr
+  td = link_to Example.find_by_id(feedback.content.split('-')[1]).title, example_id_path(:id => feedback.content.split('-')[1].to_i, :language => feedback.content.split('-')[2])
+  / td = feedback.content.split('-')[2]
+  / td = feedback.rating
+  td = feedback.from_name
+  td = mail_to feedback.from_email
+  td style="word-break: break-all" = feedback.comment ? feedback.comment.encode('utf-8', 'iso-8859-1') : nil
+  td = feedback.updated_at
+  td = link_to "x", admin_feedback_delete_path(:id => feedback.id), :method => :delete, :confirm => "Are you sure you want to delete this feedback?"

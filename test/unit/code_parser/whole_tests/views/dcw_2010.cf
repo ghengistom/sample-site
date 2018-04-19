@@ -1,0 +1,30 @@
+<!-- Copyright (c) 2000 ActivePDF, Inc. -->
+<!-- ActivePDF DocConverter WBE 2010 -->
+<!-- Example generated 01/01/2000  -->
+
+<!-- Example uses the .NET DLL which requires -->
+<!-- Coldfusion 8 or above -->
+
+<CFSCRIPT>
+// Get current path
+strPath = ExpandPath(".") & "\";
+
+// Instantiate Object
+oDCw = CreateObject(".NET", "activePDF.API.DocConverterWBE.DocConverter", "C:\Program Files\activePDF\DocConverter WBE\bin\activePDF.API.DocConverterWBE.dll");
+
+intConvertToPDF = oDCw.ConvertToPDF(strPath & "word.doc", strPath & "word.pdf");
+if(intConvertToPDF != 0) {
+  Error("ConvertToPDF", intConvertToPDF);
+}
+
+// Release Object
+oDCw = 0;
+
+// Process Complete
+WriteOutput("Done!");
+
+// Error Handling
+Function Error(method, outputCode) {
+  WriteOutput("Error in " & method & ": " & outputCode);
+}
+</CFSCRIPT>

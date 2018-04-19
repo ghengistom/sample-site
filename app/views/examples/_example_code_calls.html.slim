@@ -1,0 +1,63 @@
+- case @version.status
+- when "legacy"
+  - name = @product.name.split(/\.?\s+/)
+  - if @product.name == "Portal" && @version.name == "2014"
+    = render :partial => 'portal_demo_note'
+  - else
+    div.alert.alert-danger
+      span.fa.fa-exclamation-triangle 
+      span
+        = " Example code is for an older version of #{name[0]}, newer code is "
+        = link_to "available", "#{request.env['rack.url_scheme']}://#{request.env['HTTP_HOST']}/#{name[0]}"
+        = "."
+- when "future"
+  div.alert.alert-info
+    span.fa.fa-info-circle
+    span
+      = " This code is in beta and may contain bugs"
+- when "active"
+  - if @version.beta
+    div.alert.alert-info
+      span.fa.fa-info-circle
+      span
+        = " This code is for a beta version of #{@product.name}. Please contact "
+        = mail_to "sales@activepdf.com"
+        = " for information on beta participation."
+  - if @product.name == "Portal"
+    = render :partial => 'portal_demo_note'
+
+- case @example.status
+- when "in progress"
+  div.alert.alert-warning
+    span.fa.fa-exclamation-triangle 
+    span
+      = " This code is a work in progress and may not be complete"
+- when "inactive"
+  div.alert.alert-danger
+    span.fa.fa-exclamation-triangle 
+    span
+      = " This code is inactive and may no longer be relavent"
+
+/ Code
+- if @code_file
+  h4
+    - if @code_aspx
+      = link_to_if can?(:manage, :all), "#{@example.title}.aspx.#{@language}".gsub(" ","_"), edit_admin_example_path(@example), :class => "admin_example_title"
+    - else
+      = link_to_if can?(:manage, :all), "#{@example.title}.#{@language}".gsub(" ","_"), edit_admin_example_path(@example), :class => "admin_example_title" 
+  = render :partial => "example_code", :locals => {:id => "code_file", :code => @code_file, :language => @language, :error => @error}
+-else
+  - if @code_aspx
+    h4
+      = link_to_if can?(:manage, :all), "#{@example.title}.aspx.#{@language}".gsub(" ","_"), edit_admin_example_path(@example), :class => "admin_example_title"
+  = render :partial => "example_code", :locals => {:id => "viewer", :code => @code, :language => @language, :error => @error}
+
+- if @code_aspx
+  h4
+    = link_to_if can?(:manage, :all), "#{@example.title}.aspx".gsub(" ","_"), edit_admin_example_path(@example), :class => "admin_example_title"
+  = render :partial => "example_code", :locals => {:id => "code_aspx", :code => @code_aspx, :language => "html", :error => nil}
+
+- if @portal_aspx
+  h4
+    = link_to_if can?(:manage, :all), "#{@example.title}.aspx", edit_admin_example_path(@example), :class => "admin_example_title"
+  = render :partial => "example_code", :locals => {:id => "viewer_portal", :code => @portal_aspx, :language => "html", :error => nil}

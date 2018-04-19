@@ -1,0 +1,14 @@
+<%
+sorted_examples = Hash.new { |hsh, key| hsh[key] = Array.new }
+
+examples.each do |e|
+  sorted_examples[e.status.titlecase] << e
+end
+
+-%>
+<% sorted_examples.sort.each do |s,e| %>
+  <% unless s == "Active" %>
+    <div class="list_status"><%= s %></div>
+  <% end -%>
+  <%= render :partial => "example_list_item", :collection => e.sort_by{|ex| ex.hits}.reverse %>
+<% end -%>

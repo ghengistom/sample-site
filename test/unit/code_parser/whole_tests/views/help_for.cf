@@ -1,0 +1,17 @@
+<!-- Copyright (c) 2000 ActivePDF, Inc. -->
+<!-- ActivePDF Server 2009 -->
+<!-- Example generated 01/01/2000  -->
+
+<!-- Example uses the .NET DLL which requires -->
+<!-- Coldfusion 8 or above -->
+
+<CFSCRIPT>
+asdf = .TotalPages();
+currentPage = 10;
+for (currentPage; currentPage <= asdf; currentPage=currentPage + 1)
+{
+  // asdf
+}
+// Process Complete
+WriteOutput("Done!");
+</CFSCRIPT>

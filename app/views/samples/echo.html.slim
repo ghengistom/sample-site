@@ -1,0 +1,21 @@
+- unless @data.empty?
+  - @data.each do |title, data_hash|
+    h4 = title
+    table.table.table-condensed.table-bordered
+      thead
+        tr
+          th style="min-width: 220px; width: 220px; max-width: 220px;" Name
+          th Value
+      tbody
+        - data_hash.each do |name, value|
+          tr 
+            td style="word-break: break-all;" = name
+            td style="word-break: break-all;" = value
+- else
+  h3 Echo Test Page
+  p = "No data found."
+  P = "A test cookie was added (if cookies are enabled). Refresh the page to see the cookie data. The test cookie expires after 1 minute."
+  p 
+    = "Pass this page get, post, cookie, or custom header data in order to see the data display on the page. Add an 'h' parameter to the querystring to see all the data from the headers ("
+    = link_to "http://examples.activepdf.com/samples/echo?h", "http://examples.activepdf.com/samples/echo?h"
+    = ")."

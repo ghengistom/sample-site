@@ -1,0 +1,23 @@
+<!-- Copyright (c) 2000 ActivePDF, Inc. -->
+<!-- ActivePDF Server 2009 -->
+<!-- Example generated 01/01/2000  -->
+
+<!-- Example uses the .NET DLL which requires -->
+<!-- Coldfusion 8 or above -->
+
+<CFSCRIPT>
+.Set_Debug("asdf");
+.Set_Debug(4);
+.Set_Debug(true);
+.Set_Debug(false);
+.Set_Debug(asdf);
+.Set_Debug(0);
+enumIVShow = CreateObject(".NET", "NameSpace.IVShow", "c:\folder\path\file.dll");
+.Set_Show(enumIVShow.IVShow_DocumentTitle);
+enumConversionEngine = CreateObject(".NET", "APWebGrabberInterface.ConversionEngine", "c:\folder\path\file.dll");
+.Set_EngineToUse(enumConversionEngine.IE);
+isDebug = .Get_Debug();
+testVar = .Get_GetUniqueID & ".pdf";
+// Process Complete
+WriteOutput("Done!");
+</CFSCRIPT>

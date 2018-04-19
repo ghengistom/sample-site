@@ -1,0 +1,33 @@
+<!-- Copyright (c) 2000 ActivePDF, Inc. -->
+<!-- ActivePDF Server 2012 -->
+<!-- Example generated 01/01/2000  -->
+
+<!-- Example uses the .NET DLL which requires -->
+<!-- Coldfusion 8 or above -->
+
+<CFSCRIPT>
+// Get current path
+strPath = ExpandPath(".") & "\";
+
+// Instantiate Object
+oSVR = CreateObject(".NET", "APServer.Server", "C:\Program Files\activePDF\Server\bin\APServer.Net35.dll");
+
+// Convert the PostScript file into PDF
+results = oSVR.ConvertPSToPDF(strPath & "file.ps", strPath & "file.pdf");
+if(results.Get_ServerStatus() != "Success") {
+  Error("ConvertPSToPDF", results, results.Get_ServerStatus());
+}
+
+// Release Object
+oSVR = 0;
+
+// Process Complete
+WriteOutput("Done!");
+
+// Error Handling
+Function Error(method, oResults, errorStatus) {
+  WriteOutput("Error with " & method & ": <br/>"
+    & errorStatus &  "<br/>"
+    & oResults.Get_details());
+}
+</CFSCRIPT>

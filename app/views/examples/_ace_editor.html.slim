@@ -1,0 +1,116 @@
+- case language
+- when "cs"
+  - lang = "csharp"
+- when "vb"
+  - lang = "vbnet"
+- when "vbs"
+  - lang = "vbscript"
+- when "asp"
+  - lang = "html_asp"
+- when "php"
+  - lang = "php"
+- when "cfm"
+  - lang = "coldfusion"
+- when "rb"
+  - lang = "ruby"
+- when "ps1"
+  - lang = "powershell"
+- when "html"
+  - lang = "html"
+- when "shell"
+  - lang = "powershell"
+- else
+  - lang = language
+
+- if id == "help_code"
+  // code specific to the generic code help documentation
+  javascript:
+    var editor = ace.edit("help_code");
+    $('.help_code').each(function( index ) {
+      editor = ace.edit(this);
+      editor.setTheme("ace/theme/activepdf_light");
+      editor.getSession().setMode("ace/mode/#{lang}");
+      editor.setOptions({maxLines: Infinity});
+      editor.setShowPrintMargin(false);
+      editor.setHighlightActiveLine(false);
+      editor.setHighlightGutterLine(false);
+      editor.setFontSize(14);
+      editor.renderer.setScrollMargin(10, 10);
+      editor.getSession().setUseWorker(false);
+      editor.setReadOnly(true);
+      editor.renderer.$cursorLayer.element.style.display = "none"
+      editor.setShowFoldWidgets(false);
+    });
+
+- else
+  // Code viewer and editor for examples
+  javascript:
+    var editor = ace.edit("#{id}");
+    editor.setTheme("ace/theme/activepdf_light");
+    editor.getSession().setMode("ace/mode/#{lang}");
+    editor.setOptions({maxLines: Infinity});
+    editor.setShowPrintMargin(false);
+    editor.setHighlightActiveLine(false);
+    editor.setHighlightGutterLine(false);
+    editor.setFontSize(14);
+    editor.renderer.setScrollMargin(10, 10);
+    editor.getSession().setUseWorker(false);
+    if ("#{id}" != "editor") {
+      editor.setReadOnly(true);
+      editor.renderer.$cursorLayer.element.style.display = "none"
+      editor.setShowFoldWidgets(false);
+    }
+
+javascript:
+  //http://jsfiddle.net/92wby8vo/13/
+  setTimeout(function() {
+    // Define the function pattern
+    var regex = new RegExp(/([\$]?[o|f][A-Z]{1,6}[->\.]{1,2})(\w+)/g);
+    // Loop through the lines of code
+    $('.ace_line').html(function(){
+      // Get just the text of the ace_line
+      var element_text = $(this).text().trim();
+      // Check for a regex match
+      if (regex.test(element_text)) {
+        // Get the match values
+        var arr = new Array();
+        element_text.replace(regex, function(match, object, function_name){
+          matchtext = function_name;
+          arr.push(function_name);
+        });
+        // If there are children loop through them if not replace the text
+        if ($(this).children().length > 0) {
+          // Loop through each child
+          $(this).children().each(function () {
+            // If the matched text equals child text then replace it
+            var inarray = arr.indexOf($(this).text());
+            if (inarray > -1) {
+              var newtext = $(this).html().replace(matchtext, '<span class="custom_keyword">' + matchtext + '</span>');
+              $(this).html(newtext);
+            }
+          });
+          // Even if there are children the match could be found in the ace_line text
+          var re = new RegExp("[\\.\>]{1,1}(" + matchtext + ")","g");
+          var function_found;
+          $(this).html().replace(re, function(match, function_name){
+            function_found = function_name;
+          });
+          var newtext = $(this).html().replace('>' + function_found, '><span class="custom_keyword">' + function_found + '</span>');
+          newtext = newtext.replace('.' + function_found, '.<span class="custom_keyword">' + function_found + '</span>');
+          $(this).html(newtext);
+        } else {
+          // If there are no children replace the text
+          var newtext = $(this).html().replace(matchtext, '<span class="custom_keyword">' + matchtext + '</span>');
+          $(this).html(newtext);
+        }
+      }
+    })
+  }, 600);
+
+  setTimeout(function() {
+    $(".custom_keyword").animate({
+      color: "#F16625"
+    }, 500, function() {
+      // finished fading
+    });
+  }, 800);

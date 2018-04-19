@@ -1,0 +1,14 @@
+- pv = user_signed_in? ? product_menu_item.versions.active_or_future.order('sort_order DESC') :product_menu_item.versions.active.order('sort_order DESC')
+li
+  - if user_signed_in?
+    - app_name = product_menu_item.name
+  - else
+    - app_name = product_menu_item.name.gsub(' Enterprise', '').gsub(' Professional', '')
+  
+  = link_to app_name, examples_path(:product => product_menu_item.name, :version => pv[0].name)
+  
+  / Show versions of admin
+  / - if user_signed_in?
+  /   = link_to "- #{pv[0].name}", examples_path(:product => product_menu_item.name, :version => pv.shift.name), :class => "dropdown_link_version"
+  /   - pv.each do |pv|
+  /     = link_to "- #{pv.name}", examples_path(:product => product_menu_item.name, :version => pv.name), :class => "dropdown_link_version"

@@ -1,0 +1,25 @@
+<% if parameters[:language_type].nil? || parameters[:language_type].include?(Example.language_types[@language]) %>
+  <li>
+    <span class="parameter_type">
+      <% if parameters[:type].is_a?(Hash) %>
+        <% if parameters[:type][Example.language_types[@language]].is_a?(String) %>
+          <%= parameters[:type][Example.language_types[@language]] %>
+        <% else %>
+          <%= @variable_types[parameters[:type][Example.language_types[@language]]] %>
+        <% end -%>
+      <% else %>
+        <%= @variable_types[parameters[:type]] %>
+      <% end -%>
+    </span>
+    <span class="parameter_name"><%= parameters[:name] %></span>
+    <% if parameters[:description] %>
+		<span class="parameter_description">
+		  <%= raw textilize parameters[:description] %>
+		  <%= raw textilize parameters[:options][Example.language_types[@language]] %>
+	  </span>
+	  <% end -%>
+    <% if parameters[:codes] %>
+      <br /><span class="results_returns"><%= render :partial => "error_codes", :collection => parameters[:codes] %> </span>
+    <% end -%>
+  </li>
+<% end -%>

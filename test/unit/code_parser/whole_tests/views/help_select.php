@@ -1,0 +1,21 @@
+<?php
+// Copyright (c) 2000 ActivePDF, Inc.
+// ActivePDF Server 2009
+// Example generated 01/01/2000 
+?>
+
+<?php
+switch ($grade) {
+  case "A":
+    // You got an A!
+    break;
+  case "B":
+    // You got a B!
+    break;
+  default:
+    // This is the default.
+    break;
+}
+// Process Complete
+echo "Done!";
+?>

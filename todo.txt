@@ -1,0 +1,21 @@
+Tips:
+
+Clear screen and run tests or specific test
+> tput reset && dc run web rake test
+> tput reset && dc run web rake test TEST=test/models/ability_test.rb
+> tput reset && dc run web rake test TEST=test/controllers/admin/attachments_controller_test.rb
+> tput reset && dc run web rake test TEST=test/unit/code_parser/whole_tests/whole_test.rb
+
+If need to clear pids
+> sudo rm -rf tmp/pids
+
+
+DB
+> dc run web rails generate migration add_languages_to_examples html:boolean shell:boolean
+> dc run web rails generate migration change_column :examples, :html, :boolean, default: false
+> dc run web rake db:migrate
+
+
+Adding GEM
+> make bundle
+> dc build

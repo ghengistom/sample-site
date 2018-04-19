@@ -1,0 +1,100 @@
+- dummytext = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam viverra a odio at lobortis. Morbi augue purus, tristique a mollis at, aliquet quis mi. Nullam sodales, risus id faucibus varius, massa nisi tempus urna, eget egestas nulla sapien vitae neque. Mauris non gravida sem. Integer mattis neque vel est placerat fringilla. Quisque aliquam orci non arcu fringilla, at dignissim nibh malesuada."
+
+- dummytextjp = "椺来駤楯解 さꤎゴっしゅ げ楎りゅぜ矤 穥焩䋨 わぎゃ, 婩䨺ロ㠣が 饦ぴゅ壃覟棃 えも 棃レ䤂 谨饊ぎ餚ぺ ぎょフェ揨ゆぽ ず𐤦婩 く㨣, みょ穟ヴィェ みょ穟 レ䤂骥涯ぷ 訤シ娩䤣綩 堩埥礯ず𐤦 襩䰦䝣ぢょ叧 楎りゅぜ ぴりゃ, 襩䰦䝣ぢょ叧 䨦ちゅクェよひゅ 褩ノ僯妦鏨 揨ゆ 穨䏦ム 禞馯㛤 秤び䧣しゃ苨 㨣㧦う代ぢゅ 僯妦, 驩餥わぎゃ棌 す靨祦갤䦨 矤にり 㤣ペ"
+
+- dummytextar = "ثم بلا مسرح بالإنزال. بها وتعدد برلين، النازية ٣٠. بها من عرفها الأخذ العمليات. إذ للجيش مارشال النازيين إيو, بعد مع القصف للسيطرة, تحت تكتيكاً الخارجية هو. قبل للجيش تحرّكت أن, غير التاريخ، الإتفاقية من, فقد كل مكّن بخطوط الكونجرس. أن أخذ وتردي غرّة، قتيل،, من أمّا بقيادة الإمبراطوري عدم. عليها والبريطاني كل لها, تم مكّن بداية حادثة ولم. عل أضف اعلان مشاركة المعارك, وصغار لإعلان بريطانيا، أم وضم, أخر قد طوكيو الأراضي. أم الطرفين استطاعوا يتم, الامم تشكيل لم به،. أخذ وإيطالي لإنعدام باستسلام كل. لغزو أصقاع حول عن, تونس الأوربيين أي وفي. بـ نهاية الغازية الفرنسية ذات, بالمثل، وبريطانيا وبالتحديد، بحق ثم, شبح هُزم الشرق، الضحايا عن."
+
+ul
+  li
+    = link_to "Text", "#text"
+  li
+    = link_to "Forms", "#forms"
+  li  
+    = link_to "CSS 3", "#css3"
+
+p style="page-break-after: always;"
+h1#text Text
+
+table#fonts style="padding: 10px;"
+  tr
+    td style="vertical-align: top; padding: 10px;"
+      h2 Fonts
+      
+      h4 Base14
+      p style="font-family: Helvetica;" = dummytext
+      
+      h4 Standard
+      p style="font-family: Verdana;" = dummytext
+      
+      h4 Webfont
+      p style="font-family: 'Open Sans';" = dummytext
+
+      h4 Unicode
+      p style="" = dummytextjp
+
+      h4 Arabic
+      p lang="ar" style="direction: rtl;" = dummytextar
+
+      h2 Color
+
+      h4 Orange
+      p style="color: #F16625;" = dummytext
+
+    td style="vertical-align: top; padding: 10px; width: 50%;"
+      h2 Text Alignment
+      
+      h4 Left
+      p style="text-align: left;" = dummytext
+      
+      h4 Center
+      p style="text-align: center;" = dummytext
+      
+      h4 Right
+      p style="text-align: right;" = dummytext
+
+      h4 Justified
+      p style="text-align: justify;" = dummytext
+
+p style="page-break-after: always;"
+h1#forms Forms
+
+h4 Inputs
+
+p 
+  => "text"
+  input type="text" name="text1"
+  input type="text" name="text2" value="text"
+p 
+  => "checkbox"
+  input type="checkbox" name="cb1"
+  input type="checkbox" name="cb2" checked="true"
+p 
+  => "radio"
+  input type="radio" name="radio1" value="hello"
+  input type="radio" name="radio2" value="bye" checked="true"
+p 
+  => "select"
+  select name="select1"
+    option
+    option one
+    option two
+    option three
+  select name="select2"
+    option
+    option one
+    option selected="true" two
+    option three
+p 
+  => "textarea"
+  textarea name="textarea1"
+  textarea name="textarea2"
+    | Hello World!
+
+
+p style="page-break-after: always;"
+h1#css3 CSS 3
+
+h4 Border Radius
+.border#border style="margin-bottom: 10px; padding: 10px; border: 1px solid #F16625; border-radius: 10px; box-shadow: 5px 5px 2px #aaaaaa;" = dummytext
+
+.text-shadow#text-shadow style="margin-bottom: 10px; padding: 10px; text-shadow: 1px 1px 1px #aaaaaa;" = dummytext

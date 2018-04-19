@@ -1,0 +1,7 @@
+- if user_signed_in?
+  - app_name = product_version_list_item.name
+- else
+  - app_name = product_version_list_item.name.gsub(' Enterprise', '').gsub(' Professional', '')
+
+= link_to app_name, examples_path(:product => product_version_list_item.product.name, :version => product_version_list_item.name)
+br

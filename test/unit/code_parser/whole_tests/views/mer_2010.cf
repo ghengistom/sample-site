@@ -1,0 +1,27 @@
+<!-- Copyright (c) 2000 ActivePDF, Inc. -->
+<!-- ActivePDF Meridian 2010 -->
+<!-- Example generated 01/01/2000  -->
+
+<!-- Example uses the .NET DLL which requires -->
+<!-- Coldfusion 8 or above -->
+
+<CFSCRIPT>
+// Instantiate Object
+oMER = CreateObject(".NET", "APMeridian.Server", "C:\Program Files\activePDF\Meridian API\bin\APMeridian.dll");
+
+intWait = oMER.Wait(30);
+if(intWait != 0) {
+  Error("Wait", intWait);
+}
+
+// Release Object
+oMER = 0;
+
+// Process Complete
+WriteOutput("Done!");
+
+// Error Handling
+Function Error(method, outputCode) {
+  WriteOutput("Error in " & method & ": " & outputCode);
+}
+</CFSCRIPT>

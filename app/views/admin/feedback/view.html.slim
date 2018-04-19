@@ -1,0 +1,7 @@
+h1 = "Feedbacks for #{@example.title}"
+h2 Summary
+  p
+    = "Total: #{@feedbacks.count}"
+    = "Average rating: #{Feedback.average_rating_for_example_id(@example.id)}"
+h2 Detail
+= render :partial => "table", :object => @feedbacks

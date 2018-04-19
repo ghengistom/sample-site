@@ -1,0 +1,46 @@
+javascript:
+  $.ctrl('S', function(){
+    $('form.edit_snippet').submit();
+  });
+
+= raw version_start_end_js('snippet')
+
+- if @snippet.errors.any?
+  ul
+    - @snippet.errors.full_messages.each do |msg|
+      li = msg
+
+= form_for @snippet, :url => @submit_path do |f|
+  .row.form_example
+    .col-md-3
+      .form-group
+        = f.label :name
+        = f.text_field :name, :class => "form-control"
+      
+      .form-group
+        = f.label :Category
+        = collection_select(:snippet, :category_id, Category.order(:name), :id, :name, {}, {:class => "form-control input-sm"})
+
+      hr
+      .form-group
+        = f.label :products
+        = render :partial => 'admin/shared/multi_products_select', :locals => {:model => "snippet", :selected => @snippet.snippet_versions, :potential => @snippet.potential_products}
+
+      .form-group#attachments_div
+        hr
+        = f.label :attachments
+        .attachments_list
+          - Attachment.all.each do |a|
+            => check_box_tag "snippet[attachment_ids][]", a.id, @snippet.attachments.include?(a) 
+            = label_tag "snippet[attachment_ids][#{a.id}]", a.file_file_name
+            br
+
+    .col-md-9
+      #generic_code_container
+        = f.label :generic_code
+        span.pull-right
+          => f.submit :class => "btn btn-primary btn-xs"
+          = link_to "help", admin_help_path(:type => "examples"), :target => "_blank", :class => "btn btn-info btn-xs"
+        .generic_code_box
+          = f.text_area :code, :class => "edit_box_code"
+          = render :partial => 'admin/shared/codemirror', :locals => {:container_id => 'snippet_code'}

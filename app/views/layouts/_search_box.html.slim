@@ -1,0 +1,10 @@
+= render "layouts/search_box_js"
+
+= form_tag({:controller => "/examples", :action => "search"}, :method => "get", :remote => true, :id => "search_form", :class => "navbar-form", :role => "search") do
+  .form-group.search_input_group
+    - search_text = params[:q] ? params[:q] : ""
+    = hidden_field_tag :language, @language
+    .input-group
+      = text_field_tag(:q, search_text, :class => "form-control", :id => "tags", :placeholder => "search")
+      span.input-group-addon
+        i.fa.fa-search.fa-lg class="search_button"

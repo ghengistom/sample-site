@@ -1,0 +1,64 @@
+<!-- Copyright (c) 2000 ActivePDF, Inc. -->
+<!-- ActivePDF WebGrabber 2016 -->
+<!-- Example generated 01/01/2000  -->
+
+<!-- Example uses the .NET DLL which requires -->
+<!-- Coldfusion 8 or above -->
+
+<CFSCRIPT>
+// Get current path
+strPath = ExpandPath(".") & "\";
+
+// Instantiate Object
+oWG = CreateObject(".NET", "APWebGrabber.WebGrabber", "C:\Program Files\activePDF\WebGrabber\bin\APWebGrabber.Net35.dll");
+
+// C:\ProgramData\activePDF\Logs\
+oWG.Set_Debug(true);
+
+oWG.Set_LinearizePDF(true);
+
+// Set the amount of time before a request will time out
+oWG.Set_Timeout(40);
+
+// Margins (Top, Bottom, Left, Right) 1.0 = 1"
+oWG.SetMargins(0.75, 0.75, 0.75, 0.75);
+
+// 0 = Portrait, 1 = Landscape
+oWG.Set_Orientation(0);
+
+// Rendering engine used for the HTML
+enumConversionEngine = CreateObject(".NET", "APWebGrabberInterface.ConversionEngine", "C:\Program Files\activePDF\WebGrabber\bin\APWebGrabber.Net35.dll");
+oWG.Set_EngineToUse(enumConversionEngine.IE);
+
+// Convert the HTML background (IE engine only)
+oWG.Set_PrintBackground(true);
+
+// PDF output location and filename
+oWG.Set_OutputDirectory(strPath);
+oWG.Set_NewDocumentName("basic.pdf");
+
+// HTML to convert
+// Examples:
+// http://domain.com/path/file.aspx
+// c:\folder\file.html
+oWG.Set_URL("http://examples.activepdf.com/samples/doc");
+
+// Perform the HTML to PDF conversion
+results = oWG.ConvertToPDF();
+if(results.Get_WebGrabberStatus() != "Success") {
+  Error("ConvertToPDF", results, results.Get_WebGrabberStatus());
+}
+
+// Release Object
+oWG = 0;
+
+// Process Complete
+WriteOutput("Done!");
+
+// Error Handling
+Function Error(method, oResults, errorStatus) {
+  WriteOutput("Error with " & method & ": <br/>"
+    & errorStatus &  "<br/>"
+    & oResults.Get_details());
+}
+</CFSCRIPT>

@@ -1,0 +1,38 @@
+<!-- Copyright (c) 2000 ActivePDF, Inc. -->
+<!-- ActivePDF DocConverter 2015 -->
+<!-- Example generated 01/01/2000  -->
+
+<!-- Example uses the .NET DLL which requires -->
+<!-- Coldfusion 8 or above -->
+
+<CFSCRIPT>
+// Instantiate Object
+oDC = CreateObject(".NET", "APDocConverter.DocConverter", "C:\Program Files\activePDF\DocConverter\bin\APDocConverter.Net35.dll");
+
+// Release object: .NET = Yes, COM = Yes
+oOne = CreateObject(".NET", "APDocConverter.FromPDFOptions", "C:\Program Files\ActivePDF\DocConverter\bin\APDocConverter.Net35.dll");
+oOne.Set_ToWordHeadersAndFootersMode(APDocConverter.ToWordHeadersAndFootersOptions.Detect);
+oDC.SetFromPDFOptions(oOne);
+
+// Release Object
+oOne = 0;
+
+// Release object: .NET = No, COM = Yes
+oTwo = CreateObject(".NET", "APDocConverter.FromPDFOptions", "C:\Program Files\ActivePDF\DocConverter\bin\APDocConverter.Net35.dll");
+oTwo.Set_ToWordHeadersAndFootersMode(APDocConverter.ToWordHeadersAndFootersOptions.Detect);
+oDC.SetFromPDFOptions(oTwo);
+
+// Release object: .NET = Yes, COM = Yes
+oThree = CreateObject(".NET", "APDocConverter.FromPDFOptions", "C:\Program Files\ActivePDF\DocConverter\bin\APDocConverter.Net35.dll");
+oThree.Set_ToWordHeadersAndFootersMode(APDocConverter.ToWordHeadersAndFootersOptions.Detect);
+oDC.SetFromPDFOptions(oThree);
+
+// Release Object
+oThree = 0;
+
+// Release Object
+oDC = 0;
+
+// Process Complete
+WriteOutput("Done!");
+</CFSCRIPT>

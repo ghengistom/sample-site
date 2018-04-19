@@ -1,0 +1,47 @@
+<script>
+	CodeMirror.defineMode("activepdf-ruby", function(config, parserConfig) {
+	  var activepdfOverlay = {
+	    token: function(stream, state) {
+	      var ch;
+	      if (stream.match("snipp")) {
+	        while ((ch = stream.next()) != null)
+	          if (ch == "e" && stream.next() == "t") break;
+	        stream.eat("t");
+	        return "snippet";
+	      }
+	      while (stream.next() != null && !stream.match("snipp", false)) {}
+	      return null;
+	    }
+	  };
+	  return CodeMirror.overlayMode(CodeMirror.getMode(config, parserConfig.backdrop || "text/x-ruby"), activepdfOverlay);
+	});
+  var editor = CodeMirror.fromTextArea(document.getElementById("<%= container_id %>"), {
+    mode: "activepdf-ruby",
+    lineNumbers: true,
+    matchBrackets: true,
+    tabSize: 2
+  });
+	var snippets = {};
+	<% @snippets.each do |s| -%>
+		snippets[<%= s.id %>] = '<%= s.name %>';
+	<% end -%>
+
+	$('.cm-snippet').mouseover(function() {
+		var url = '<%= edit_admin_snippet_path(99999) %>';
+		var snippet_id = parseInt($(this).next('span.cm-number').html());
+		var snippet_link = '<a href="' +  url.replace('99999', snippet_id) + '" target="_blank">' + snippets[snippet_id] + '</a>';
+		$(this).tooltip({title: snippets[snippet_id], container: 'body', placement: 'top'});
+		$(this).tooltip('show');
+	});
+
+	$('.cm-snippet').click(function() {
+		var url = '<%= edit_admin_snippet_path(99999) %>';
+		var snippet_id = parseInt($(this).next('span.cm-number').html());
+		window.open(url.replace('99999', snippet_id), 'window name');
+  	return false;
+	});
+
+	$('.cm-snippet').mouseout(function() {
+		$(this).tooltip('hide');
+	});
+</script>

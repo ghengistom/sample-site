@@ -1,0 +1,99 @@
+h3 Sample Form
+
+.row
+  .col-md-5
+    = form_tag do |f|
+      p
+        .form-group
+          label for="input_name_first" First Name
+          input.form-control#input_name_first type="text" name="input_name_first" value="#{params[:input_name_first]}"
+        
+        .form-group
+          label for="input_name_last" Last Name
+          input.form-control#input_name_last type="text" name="input_name_last" value="#{params[:input_name_last]}"
+        
+        .form-group
+          label for="input_email" Email Address
+          input.form-control#input_email type="email" name="input_email" value="#{params[:input_email]}"
+      
+      p
+        strong Gender
+
+        .radio
+          - if params[:radio_gender] == "male"
+            = radio_button_tag :radio_gender, "male", {:checked => "checked"}
+          - else
+            = radio_button_tag :radio_gender, "male"
+
+          = label_tag :radio_gender_male, "Male"
+          br
+          - if params[:radio_gender] == "female"
+            = radio_button_tag :radio_gender, "female", {:checked => "checked"}
+          - else
+            = radio_button_tag :radio_gender, "female"
+          = label_tag :radio_gender_female, "Female"
+    
+      p
+        strong Favorite Languages
+        .checkbox
+          label
+            - if params[:cb_cs] == "on"
+              input type="checkbox" name="cb_cs" checked="true" C#
+            - else
+              input type="checkbox" name="cb_cs" C#
+        .checkbox
+          label
+            - if params[:cb_vb] == "on"
+              input type="checkbox" name="cb_vb" checked="true" VB
+            - else
+              input type="checkbox" name="cb_vb" VB
+        .checkbox
+          label
+            - if params[:cb_vbs] == "on"
+              input type="checkbox" name="cb_vbs" checked="true" VBS
+            - else
+              input type="checkbox" name="cb_vbs" VBS
+        .checkbox
+          label
+            - if params[:cb_asp] == "on"
+              input type="checkbox" name="cb_asp" checked="true" ASP
+            - else
+              input type="checkbox" name="cb_asp" ASP
+        .checkbox
+          label
+            - if params[:cb_php] == "on"
+              input type="checkbox" name="cb_php" checked="true" PHP
+            - else
+              input type="checkbox" name="cb_php" PHP
+        .checkbox
+          label
+            - if params[:cb_cf] == "on"
+              input type="checkbox" name="cb_cf" checked="true" CF
+            - else
+              input type="checkbox" name="cb_cf" CF
+        .checkbox
+          label
+            - if params[:cb_ruby] == "on"
+              input type="checkbox" name="cb_ruby" checked="true" Ruby
+            - else
+              input type="checkbox" name="cb_ruby" Ruby
+        .checkbox
+          label
+            - if params[:cb_ps] == "on"
+              input type="checkbox" name="cb_ps" checked="true" PS
+            - else
+              input type="checkbox" name="cb_ps" PS
+        .checkbox
+          label
+            - if params[:cb_shell] == "on"
+              input type="checkbox" name="cb_shell" checked="true" Shell
+            - else
+              input type="checkbox" name="cb_shell" Shell
+        .checkbox
+          label
+            - if params[:cb_html] == "on"
+              input type="checkbox" name="cb_html" checked="true" HTML
+            - else
+              input type="checkbox" name="cb_html" HTML
+
+      button.btn.btn-default type="submit" Submit

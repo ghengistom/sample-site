@@ -1,0 +1,23 @@
+h2 
+  => "Versions"
+  small
+    = link_to new_admin_version_path do
+      i.fa.fa-plus
+
+table.table
+  tr
+    th ID
+    th Name
+    th Product
+    th Order
+    th Status
+    th
+
+  - @versions.each do |v|
+    tr
+      td = link_to v.id, edit_admin_version_path(v)
+      td = link_to v.name, edit_admin_version_path(v)
+      td = v.product.name
+      td = v.sort_order
+      td = v.status
+      td = link_to "x", admin_version_path(v), :method => :delete, :confirm => "Are you sure?"

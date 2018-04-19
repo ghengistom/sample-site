@@ -1,0 +1,20 @@
+h1 = "#{t(:activePDF)} Examples"
+p.lead = "Welcome to the #{t(:activePDF)} Examples site. Here you can find code examples in a variety of programming languages for the #{t(:activePDF)} Products."
+h4 = "Other #{t(:activePDF)} Resources"
+ul.list-unstyled
+  = render "layouts/resource_links"
+
+- if defined? @product.name
+  - if @product.name == "Portal"
+    = render :partial => 'portal_demo_note'
+
+- if user_signed_in?
+  - if defined? @version
+    - unless @version.builds.to_s.empty?
+      h4 = "#{@product.name} #{@version.name} Releases"
+      - foo = @version.builds.split(',')
+      - foo.each do |build|
+        - build = build.gsub('(', '<span class="text-muted">(')
+        - build = build.gsub(')', ')</span>')
+        = raw build
+        br

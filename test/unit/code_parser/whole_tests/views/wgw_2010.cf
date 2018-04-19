@@ -1,0 +1,33 @@
+<!-- Copyright (c) 2000 ActivePDF, Inc. -->
+<!-- ActivePDF WebGrabber WBE 2010 -->
+<!-- Example generated 01/01/2000  -->
+
+<!-- Example uses the .NET DLL which requires -->
+<!-- Coldfusion 8 or above -->
+
+<CFSCRIPT>
+// Instantiate Object
+// For WebGrabber in ColdFusion you must use a proxy DLL
+oWG = CreateObject(".NET", "APWebGrabberProxy.APWebGrabber", "C:\Program Files\activePDF\WebGrabber WBE\bin\APWebGrabberProxy.dll");
+
+// Perform the HTML to PDF conversion
+intDoPrint = oWG.DoPrint("127.0.0.1", 54545);
+if(intDoPrint != 0) {
+  Error("DoPrint", intDoPrint);
+}
+
+// Cleans up all internal string variables used during conversion
+// By default variables are deleted 3 minutes after the conversion
+oWG.CleanUp("127.0.0.1", 54545);
+
+// Release Object
+oWG = 0;
+
+// Process Complete
+WriteOutput("Done!");
+
+// Error Handling
+Function Error(method, outputCode) {
+  WriteOutput("Error in " & method & ": " & outputCode);
+}
+</CFSCRIPT>

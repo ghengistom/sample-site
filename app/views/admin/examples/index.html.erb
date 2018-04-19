@@ -1,0 +1,43 @@
+<h2>Examples</h2>
+<%= paginate @examples %>
+<div class="table_list">
+	<table class="table">
+		<thead class="table_list_head">
+		  <tr>
+		    <th>ID</th>
+		    <th>Title</th>
+		    <th>Product</th>
+				<th>Type</th>
+				<th>Function</th>
+				<th>Category</th>
+		    <th></th>
+		  </tr>
+		</thead>
+		<tbody class="table_list_body">
+		  <% @examples.each do |e| %>
+		  <tr>
+		    <td><%= e.id %></td>
+				    <td><%= link_to e.title, edit_admin_example_path(e) %></td>
+				<td><%= e.products.first.name %></td>
+		    <td><%= e.example_type %></td>
+				<td>
+					<% if e.is_method == true %>
+						Method
+					<% else %>
+						Property
+					<% end %>
+				</td>
+				<td><%= e.category.name if e.category %></td>
+				<td><%= link_to "x", admin_example_path(e), :method => :delete, :confirm => "Are you sure?" %></td>
+		  </tr>
+		  <% end %>
+		</tbody>
+		<tfoot class="table_list_foot">
+			<tr>
+				<td colspan="100%">
+						<%= link_to "New Example", new_admin_example_path %>
+				</td>
+			</tr>
+		</tfoot>
+	</table>
+</div>

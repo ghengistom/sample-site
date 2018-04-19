@@ -1,0 +1,9 @@
+- if can?(:manage, :all)
+  - if @version.snippet_categories.count > 0
+    hr
+    h3.text-muted Snippets
+    - @version.snippet_categories.each do |category|
+      dt.list_category.text-muted = category.name
+      - category.snippets_by_product_id_and_version_sort_order(@product.id, @version.sort_order).each do |snippet|
+        / li = link_to snippet.name, edit_admin_snippet_path(snippet.id), target: "_blank"
+        .snippet_link = link_to snippet.name, edit_admin_snippet_path(snippet.id), target: "_blank"

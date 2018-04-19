@@ -1,0 +1,16 @@
+h2 
+  => "Products"
+  small
+    = link_to new_admin_product_path do
+      i.fa.fa-plus
+
+table.table
+  tr
+    th ID
+    th Name
+    th
+  - @products.each do |p|
+    tr
+      td = link_to p.id, edit_admin_product_path(p)
+      td = link_to p.name, edit_admin_product_path(p)
+      td = link_to "x", admin_product_path(p), :method => :delete, :confirm => "Are you sure?"

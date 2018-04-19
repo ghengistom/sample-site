@@ -1,0 +1,44 @@
+<% if @documentation %>
+  <% unless @docsOnly %>
+    <div class="bsPad"></div>
+  <% end -%>
+  <!--<div class="bsTitle">Documentation</div>-->
+  <div class="bsSubContent bsSubDoc">
+    <% if @documentation[:description] %>
+      <div class="documentation_header">Description</div>
+      <div class="documentation_description">
+  		  <%= raw textilize @documentation[:description].collect{|d| "#{d}"}.join("\n\n") %>
+  		</div>
+  		<% if @syntax %>
+        <div class="documentation_header">Syntax</div>
+        <div class="documentation_syntax">
+      		<pre class="brush: <%= @language %> toolbar: false; gutter: false;"><%= @syntax %></pre>
+    		</div>
+  		<% end -%>
+		<% end -%>
+		<% if @documentation[:value] %>
+  		<div class="documentation_header">Value</div>
+  		<div class="documentation_value">
+        	<ul><%= render :partial => "parameters", :collection => @documentation[:value] %></ul>
+  		</div>
+		<% end -%>
+		<% if @documentation[:parameters] %>
+  		<div class="documentation_header">Parameters</div>
+  		<div class="documentation_parameters">
+        	<ul><%= render :partial => "parameters", :collection => @documentation[:parameters] %></ul>
+  		</div>
+		<% end -%>
+		<% if @documentation[:results] %>
+  		<div class="documentation_header">Results</div>
+  		<div class="documentation_results">
+        	<ul><%= render :partial => "parameters", :collection => @documentation[:results] %></ul>
+  		</div>
+		<% end -%>
+		<% if @documentation[:remarks] %>
+  		<div class="documentation_header">Remarks</div>
+  		<div class="documentation_remarks">
+  		  <%= raw textilize @documentation[:remarks].collect{|r| "#{r}"}.join("\n") %>
+  		</div>
+		<% end -%>
+	</div>
+<% end -%>

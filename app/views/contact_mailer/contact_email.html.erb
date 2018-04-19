@@ -1,0 +1,12 @@
+<h1><%= @name %></h1>
+
+<table style="border: 1px solid #ddd;">
+  <% @fields.each do |name, value| -%>
+  <tr>
+    <td style="width: 30%; vertical-align: top;"><%= name.titleize %></td>
+    <td style="width: 70%;"><%= value %></td>
+  </tr>
+  <% end -%>
+</table>
+  
+<p>Sent on: <%= Time.now %></p>

@@ -1,0 +1,121 @@
+javascript:
+  function copy_clicked() {
+    $('#clipboard_link').css('background-color', '#fff').css('color', '#000').css('text-align', 'right').delay(500).animate({ backgroundColor: '#fff', color: '#FFF' }, {duration: 500, complete: flash_restore});
+    _gaq.push(['_trackEvent', "examples", "copy-to-clipboard", "#{@product.name}/#{@version.name}/#{@example.title}/#{@language}"]);
+  }
+  
+  function flash_restore() {
+    $('#clipboard_link').css('color', '#39CED6').animate({backgroundColor: '#FFF'},500);
+  }
+
+  $(document).ready(function() {
+    if ( DetectFlashVer(8, 0, 0) ) {
+      var client = new ZeroClipboard( document.getElementById("clipboard_link"), {
+        moviePath: "#{asset_path "zeroclipboard/ZeroClipboard.swf"}"
+      } );
+      client.on( "load", function(client) {
+        client.setText( $('#language_code').val().replace(/\r?\n/g, "\r\n") );
+        client.on( 'complete', copy_clicked );
+        client.on("mouseover", function() {
+          return $('#icon_copy_clipboard').tooltip('show');
+        });
+        client.on("mouseout", function() {
+          return $('#icon_copy_clipboard').tooltip('hide');
+        });
+      });
+    } else {
+      $('#clipboard_link').hide();
+    }
+  });
+
+/ Track download event
+- if Rails.env.production? && !user_signed_in?
+  javascript:
+    function download_clicked(example_page) {
+      _gaq.push(['_trackEvent', "examples", "download", example_page]);
+    }
+
+    function download_all_clicked(example_page) {
+      _gaq.push(['_trackEvent', "examples", "download_all", example_page]);
+    }
+
+div
+  h3
+    = link_to_if can?(:manage, :all), @example.example_title, edit_admin_example_path(@example), :class => "admin_example_title"
+
+  = simple_format(@example.description) if @example.description.present?
+
+
+/ List Languages
+div
+  ul.nav.nav-tabs
+    - Example.all_languages.each do |n,v|
+      = render :partial => "example_language_tabs", :locals => {:example => @example, :n => n, :v => v}
+
+    .pull-right.tab_links_code
+
+      / <!-- Copy to Clipboard -->
+      a.tab_button_link.clipboard_link.fa-stack.fa-lg#clipboard_link
+        i.fa.fa-square.fa-stack-2x#icon_copy_clipboard data-toggle="tooltip" title="Copy Code to Clipboard" data-trigger="manual"
+        i.fa.fa-copy.fa-stack-1x.fa-inverse
+      form style="display:none;"
+        textarea id="language_code" style="display:none;" = @code
+
+      / <!-- Video -->
+      - if @example.video.present?
+        a.tab_button_link.fa-stack.fa-lg href="#" data-toggle="collapse" data-target="#section_video"
+          i.fa.fa-square.fa-stack-2x
+          i.fa.fa-film.fa-stack-1x.fa-inverse data-toggle="tooltip" title="Show Video"
+
+      / <!-- Download Example -->
+      = link_to example_download_path(:product => @product.name, :version => @version.name, :title => @example.title, :language => @language, :snippets => @snippet_categories_selected), :class => 'tab_button_link' do
+        - if Rails.env.production? && !user_signed_in?
+          - download_onclick = "download_clicked('#{@product.name}/#{@version.name}/#{@example.title}/#{@language}');"
+        - else
+          - download_onclick = ""
+
+        span.fa-stack.fa-lg
+          i.fa.fa-square.fa-stack-2x
+          i.fa.fa-download.fa-stack-1x.fa-inverse data-toggle="tooltip" title="Download Example" onclick="#{download_onclick}"
+        
+      / <!-- Download Package -->
+      - if can?(:read, :login)
+        = link_to example_download_package_path(:product => @product.name, :version => @version.name, :title => @example.title, :language => @language, :snippets => @snippet_categories_selected), :class => 'tab_button_link' do
+          - if Rails.env.production? && !user_signed_in?
+            - download_all_onclick = "download_all_clicked('#{@product.name}/#{@version.name}/#{@example.title}/#{@language}');"
+          - else
+            - download_all_onclick = ""
+
+          span.fa-stack.fa-lg
+            i.fa.fa-square.fa-stack-2x
+            i.fa.fa-archive.fa-stack-1x.fa-inverse data-toggle="tooltip" title="Download All #{@product.name} #{@version.name} #{@language.upcase} Examples" onclick="#{download_all_onclick}"
+
+      / / Show option to download all example languages at once if admin
+      / - if user_signed_in?
+      /   = link_to example_download_all_path(:product => @product.name, :version => @version.name, :title => @example.title, :language => @language), :class => "tab_button_link fa-stack fa-lg" do
+      /     i.fa.fa-square.fa-stack-2x
+      /     i.fa.fa-cloud-download.fa-stack-1x.fa-inverse data-toggle="tooltip" title="Download Example in all Languages"
+      
+      / Documentation
+      - if @version.docs_url?
+        = link_to @version.docs_url, :class => "tab_button_link fa-stack fa-lg", :target => "_blank" do
+          i.fa.fa-square.fa-stack-2x
+          i.fa.fa-file-text-o.fa-stack-1x.fa-inverse data-toggle="tooltip" title="Documentation"
+
+      / Feedback
+      a.tab_button_link.fa-stack.fa-lg href="#" data-toggle="collapse" data-target="#feedback_form"
+        i.fa.fa-square.fa-stack-2x
+        i.fa.fa-comment-o.fa-stack-1x.fa-inverse data-toggle="tooltip" title="Provide Feedback"
+
+  .tab-content
+
+    = render "feedback_form"
+
+    - if @example.video.present?
+      p#section_video.text-center.collapse
+        iframe width="560" height="315" src="http://www.youtube.com/embed/#{@example.video}" frameborder="0" allowfullscreen
+
+    = render "snippet_options"
+
+    / Code
+    = render "example_code_calls"

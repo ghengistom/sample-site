@@ -1,0 +1,14 @@
+- @product ||= example_list_item.products.first
+- @version ||= @product.latest_version
+- @language ||= "cs"
+- from_search ||= false
+- link_class = @example && example_list_item.id == @example.id ? "example_list_item_selected" : "example_list_item"
+dd class="#{link_class} #{example_list_item_class(example_list_item.list_type)}"
+  - if can?(:manage, :all)
+    => link_to edit_admin_example_path(example_list_item.id), :class => "" do
+      i.fa.fa-edit
+  
+  - unless from_search
+    = link_to example_list_item.example_title, examples_path(:product => @product.name, :version => @version.name, :title => example_list_item.title, :language => @language)
+  - else
+    = link_to example_list_item.title, examples_path(:product => example_list_item.products.first.name, :version => example_list_item.products.first.latest_version.name, :title => example_list_item.title)

@@ -1,0 +1,50 @@
+<!-- Copyright (c) 2000 ActivePDF, Inc. -->
+<!-- ActivePDF Rasterizer 2017 -->
+<!-- Example generated 01/01/2000  -->
+
+<!-- Example uses the .NET DLL which requires -->
+<!-- Coldfusion 8 or above -->
+
+<CFSCRIPT>
+// Get current path
+strPath = ExpandPath(".") & "\";
+
+
+// Instantiate Object
+objVAR = CreateObject(".NET", "NameSpace.Class", "c:\folder\path\file.dll");
+
+// Open PDF
+objVAR.OpenFile(strPath & "doc.pdf");
+
+// Get page count of open file
+pageCount = objVAR.NumPages();
+
+currentPage = 1;
+for (currentPage; currentPage <= pageCount; currentPage=currentPage + 1)
+{
+  // Image Format
+  enumImageType = CreateObject(".NET", "NameSpace.ImageType", "c:\folder\path\file.dll");
+  objVAR.Set_ImageFormat(enumImageType.ImgJPEG);
+  
+  // Output Type
+  enumOutputFormatType = CreateObject(".NET", "NameSpace.OutputFormatType", "c:\folder\path\file.dll");
+  objVAR.Set_OutputFormat(enumOutputFormatType.OutFile);
+  
+  // Other settings
+  objVAR.Set_OutputFileName(strPath & "doc" & currentPage & ".jpg");
+  objVAR.Set_JPEGQuality(72);
+  objVAR.Set_IncludeAnnotations(true);
+  
+  // Render the current page
+  objVAR.RenderPage(currentPage);
+}
+
+// Finished rendering pages, close file
+objVAR.CloseFile();
+
+// Release Object
+objVAR = 0;
+
+// Process Complete
+WriteOutput("Done!");
+</CFSCRIPT>

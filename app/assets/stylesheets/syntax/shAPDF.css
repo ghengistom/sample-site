@@ -1,0 +1,18 @@
+.syntaxhighlighter .apdf_meth {
+  color: #C60 !important;
+  /*font-weight: bold !important;*/
+}
+.syntaxhighlighter .apdf_prop {
+  color: #FA0 !important;
+  /*font-weight: bold !important;*/
+}
+.syntaxhighlighter .apdf_meth_current {
+  color: #C60 !important;
+	font-weight: bolder !important;
+	/*background-color: #808000 !important;*/
+}
+.syntaxhighlighter .apdf_prop_current {
+  color: #FA0 !important;
+	font-weight: bolder !important;
+	/*background-color: #FFFF00 !important;*/
+}

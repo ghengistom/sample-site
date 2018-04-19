@@ -1,0 +1,15 @@
+h2 Attachments
+
+table.table
+  tr
+    th Name
+    th Download
+    th
+
+  - @attachments.each do |a|
+    tr
+      td = link_to a.file.original_filename, edit_admin_attachment_path(a)
+      td = link_to "d", a.file.url
+      td = link_to "x", admin_attachment_path(a), :method => :delete, :confirm => "Are you sure?"
+
+= render "attachment_form"

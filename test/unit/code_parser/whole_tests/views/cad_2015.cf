@@ -1,0 +1,67 @@
+<!-- Copyright (c) 2000 ActivePDF, Inc. -->
+<!-- ActivePDF CADConverter 2015 -->
+<!-- Example generated 01/01/2000  -->
+
+<!-- Example uses the .NET DLL which requires -->
+<!-- Coldfusion 8 or above -->
+
+<CFSCRIPT>
+// Get current path
+strPath = ExpandPath(".") & "\";
+
+// Instantiate Object
+oDC = CreateObject(".NET", "APDocConverter.DocConverter", "C:\Program Files\ActivePDF\CADConverter\bin\APDocConverter.Net35.dll");
+
+// Settings specific to CAD conversions
+oCAD = CreateObject(".NET", "APDocConverter.CADConverter.CADConverter", "C:\Program Files\ActivePDF\DocConverter\bin\APDocConverter.CAD.Net35.dll");
+
+// Options available for CAD conversions
+// Options that are 'NotSet' use the setting from the configuation manager
+oCAD.Set_ASCIIHexEncoding(false);
+oCAD.Set_Color(APDocConverter.CADConverter.ColorMode.NotSet);
+oCAD.Set_EmbedFonts(APDocConverter.CADConverter.EmbedFontsOptions.NotSet);
+oCAD.Set_ExportLayers(APDocConverter.CADConverter.LayersOptions.NotSet);
+oCAD.Set_ExportLayouts(APDocConverter.CADConverter.LayoutsOptions.NotSet);
+oCAD.Set_FlateCompression(false);
+oCAD.Set_HatchToBitmapDPI(150);
+oCAD.Set_HiddenLineRemoval(false);
+oCAD.Set_Lineweight(APDocConverter.CADConverter.LineweightOptions.NotSet);
+oCAD.Set_OtherHatchesSettings(APDocConverter.CADConverter.OtherHatchOptions.NotSet);
+oCAD.Set_PlotStyleTableName("");
+oCAD.Set_SHXTextAsGeometry(false);
+oCAD.Set_SimpleGeometryOptimization(false);
+oCAD.Set_SolidHatchesSettings(APDocConverter.CADConverter.SolidHatchOptions.NotSet);
+oCAD.Set_TrueTypeAsGeometry(false);
+oCAD.Set_ZoomToExtents(true);
+
+// Page size is only set if ZoomToExtents is true
+oCAD.SetExtentsPageSize(210, 297);
+
+// Convert the settings to XML and send it to DocConverter
+cadXML = oCAD.Serialize();
+oDC.SetAddonOptions(cadXML);
+
+// Release Object
+oCAD = 0;
+
+// Convert the file to PDF
+// If the output parameter is not used the created PDF will use
+// the input string substituting the filename extension to 'pdf'
+results = oDC.ConvertToPDF(strPath & "sample.dwg", strPath & "new.pdf");
+if(results.Get_DocConverterStatus() != "Success") {
+  Error("ConvertToPDF", results, results.Get_DocConverterStatus());
+}
+
+// Release Object
+oDC = 0;
+
+// Process Complete
+WriteOutput("Done!");
+
+// Error Handling
+Function Error(method, oResults, errorStatus) {
+  WriteOutput("Error with " & method & ": <br/>"
+    & errorStatus &  "<br/>"
+    & oResults.Get_details());
+}
+</CFSCRIPT>

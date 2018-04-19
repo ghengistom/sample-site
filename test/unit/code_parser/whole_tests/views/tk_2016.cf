@@ -1,0 +1,104 @@
+<!-- Copyright (c) 2000 ActivePDF, Inc. -->
+<!-- ActivePDF Toolkit 2016 -->
+<!-- Example generated 01/01/2000  -->
+
+<!-- Example uses the .NET DLL which requires -->
+<!-- Coldfusion 8 or above -->
+
+<CFSCRIPT>
+// Get current path
+strPath = ExpandPath(".") & "\";
+
+// Instantiate Object
+oTK = CreateObject(".NET", "APToolkitNET.Toolkit", "C:\Program Files\activePDF\Toolkit\DotNetComponent\2.0\APToolkitNET.dll");
+
+// Create the new PDF file
+intOpenOutputFile = oTK.OpenOutputFile(strPath & "new.pdf");
+if(intOpenOutputFile != 0) {
+  Error("OpenOutputFile", intOpenOutputFile);
+}
+
+// Open the template PDF
+intOpenInputFile = oTK.OpenInputFile(strPath & "form.pdf");
+if(intOpenInputFile != 0) {
+  Error("OpenInputFile", intOpenInputFile);
+}
+
+// Get the reference to the XMP object
+oXMP = oTK.GetXMPManager();
+
+// Set a document property
+intSetDocumentProperty = oXMP.SetDocumentProperty(APToolkitNET.XMPProperty.Author, "John Doe");
+if(intSetDocumentProperty != 0) {
+  Error("SetDocumentProperty", intSetDocumentProperty);
+}
+
+// Set a custom property
+intSetCustomProperty = oXMP.SetCustomProperty("example", "http://examples.activepdf.com");
+if(intSetCustomProperty != 0) {
+  Error("SetCustomProperty", intSetCustomProperty);
+}
+
+// Set the namespace for the user property
+oXMP.SetNamespace("dc", "http://purl.org/dc/elements/1.1/");
+
+// Set a user property
+intSetUserProperty = oXMP.SetUserProperty("contributor", "ActivePDF");
+if(intSetUserProperty != 0) {
+  Error("SetUserProperty", intSetUserProperty);
+}
+
+// Remove a property
+enumXMPProperty = CreateObject(".NET", "APToolkitNET.XMPProperty", "C:\Program Files\ActivePDF\Toolkit\DotNetComponent\2.0\APToolkitNET.dll");
+oXMP.RemoveDocumentProperty(enumXMPProperty.Author);
+
+// Get the reference to the InitialViewInfo object
+oIVI = oTK.GetInitialViewInfo();
+
+// Options for viewer window
+oIVI.Set_CenterWindow(true);
+oIVI.Set_FullScreen(false);
+oIVI.Set_ResizeWindow(true);
+enumIVShow = CreateObject(".NET", "APToolkitNET.IVShow", "C:\Program Files\ActivePDF\Toolkit\DotNetComponent\2.0\APToolkitNET.dll");
+oIVI.Set_Show(enumIVShow.IVShow_DocumentTitle);
+
+// Show or hide UI elements of the viewer
+oIVI.Set_HideMenuBar(true);
+oIVI.Set_HideToolBars(true);
+oIVI.Set_HideWindowControls(true);
+enumIVNavigationTab = CreateObject(".NET", "APToolkitNET.IVNavigationTab", "C:\Program Files\ActivePDF\Toolkit\DotNetComponent\2.0\APToolkitNET.dll");
+oIVI.Set_NavigationTab(enumIVNavigationTab.IVNavigationTab_PageOnly);
+
+// Page settings
+enumIVMagnification = CreateObject(".NET", "APToolkitNET.IVMagnification", "C:\Program Files\ActivePDF\Toolkit\DotNetComponent\2.0\APToolkitNET.dll");
+oIVI.Set_Magnification(enumIVMagnification.IVMagnification_150);
+oIVI.Set_OpenToPage(2);
+enumIVPageLayout = CreateObject(".NET", "APToolkitNET.IVPageLayout", "C:\Program Files\ActivePDF\Toolkit\DotNetComponent\2.0\APToolkitNET.dll");
+oIVI.Set_PageLayout(enumIVPageLayout.IVPageLayout_SinglePageContinuous);
+
+// Populate and flatten the fields, the data will remain in the place
+// of the field and the field data will be added to the XMP data
+oTK.SetFormFieldData("name", "John Doe", -997);
+oTK.SetFormFieldData("date", "1/1/2000", -997);
+oTK.SetFormFieldData("amount", "15.00", -997);
+
+// Copy the template (with any changes) to the new file
+intCopyForm = oTK.CopyForm(0, 0);
+if(intCopyForm != 1) {
+  Error("CopyForm", intCopyForm);
+}
+
+// Close the new file to complete PDF creation
+oTK.CloseOutputFile();
+
+// Release Object
+oTK = 0;
+
+// Process Complete
+WriteOutput("Done!");
+
+// Error Handling
+Function Error(method, outputCode) {
+  WriteOutput("Error in " & method & ": " & outputCode);
+}
+</CFSCRIPT>

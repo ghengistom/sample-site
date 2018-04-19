@@ -1,0 +1,13 @@
+# Copyright (c) 2000 ActivePDF, Inc.
+# ActivePDF Server 2009
+# Example generated 01/01/2000 
+
+require 'win32ole'
+
+asdf = .TotalPages()
+currentPage = 10
+for currentPage in currentPage..asdf
+  # asdf
+end
+# Process Complete
+puts "Done!"

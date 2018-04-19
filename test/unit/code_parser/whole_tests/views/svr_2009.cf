@@ -1,0 +1,30 @@
+<!-- Copyright (c) 2000 ActivePDF, Inc. -->
+<!-- ActivePDF Server 2009 -->
+<!-- Example generated 01/01/2000  -->
+
+<!-- Example uses the .NET DLL which requires -->
+<!-- Coldfusion 8 or above -->
+
+<CFSCRIPT>
+// Get current path
+strPath = ExpandPath(".") & "\";
+
+// Instantiate Object
+oSVR = CreateObject(".NET", "APServer.Server", "C:\Program Files\activePDF\Server\bin\APServer.dll");
+
+intPSToPDF = oSVR.PSToPDF(strPath & "ps.ps", strPath & "ps.pdf");
+if(intPSToPDF != 0) {
+  Error("PSToPDF", intPSToPDF);
+}
+
+// Release Object
+oSVR = 0;
+
+// Process Complete
+WriteOutput("Done!");
+
+// Error Handling
+Function Error(method, outputCode) {
+  WriteOutput("Error in " & method & ": " & outputCode);
+}
+</CFSCRIPT>

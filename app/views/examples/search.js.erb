@@ -1,0 +1,24 @@
+<% if @examples.collect{|e| e.title.downcase }.include?(@term.downcase) && @examples.select{|e| e.title.downcase == @term.downcase }.length == 1 %>
+  <% example = @examples.select{|e| e.title.downcase == @term.downcase }[0] %>
+  window.location = '<%= example_id_path(example.id, :language => @language) %>';
+<% else %>
+  <% html = "" %>
+  <% html = '<div class="container">' %>
+    <% html += '<h3 class="pull-left">Search Results</h3>' %>
+    <% html += '<button class="pull-right btn btn-primary btn-xs" onclick="javascript: hide_search()">Close Results</button>' %>
+   	<% html += '<div class="search_results_results">' %>
+  	  <% unless @examples.empty? %>
+        <% html += render :partial => "examples_product_list" %>
+    	<% else %>
+    	  <% html += 'No results found.' %>
+    	<% end %>
+  	<% html += '</div>' %>
+  <% html += '</div>' %>
+  $('#search_results').show();
+  $('#search_results').html("<%= raw escape_javascript(html) %>");
+  $('.ui-autocomplete').hide();
+
+  function hide_search() {
+  	$('#search_results').hide();
+  }  
+<% end -%>

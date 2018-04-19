@@ -1,0 +1,63 @@
+# Copyright (c) 2000 ActivePDF, Inc.
+# ActivePDF CADConverter 2015
+# Example generated 01/01/2000 
+
+# Get current path
+$invocation = (Get-Variable MyInvocation).Value
+$strPath = (Split-Path $invocation.MyCommand.Path) + "\"
+
+# Instantiate Object
+$oDC = New-Object -ComObject APDocConverter.Object
+
+# Settings specific to CAD conversions
+$oCAD = New-Object -ComObject CADConverter.Object
+
+# Options available for CAD conversions
+$oCAD.ASCIIHexEncoding = $False
+$oCAD.Color = 0
+$oCAD.EmbedFonts = 2
+$oCAD.ExportLayers = 2
+$oCAD.ExportLayouts = 0
+$oCAD.FlateCompression = $False
+$oCAD.HatchToBitmapDPI = 150
+$oCAD.HiddenLineRemoval = $False
+$oCAD.Lineweight = -1
+$oCAD.OtherHatchesSettings = 0
+$oCAD.PlotStyleTableName = ""
+$oCAD.SHXTextAsGeometry = $False
+$oCAD.SimpleGeometryOptimization = $False
+$oCAD.SolidHatchesSettings = 2
+$oCAD.TrueTypeAsGeometry = $False
+$oCAD.ZoomToExtents = $True
+
+# Page size is only set if ZoomToExtents is true
+$oCAD.SetExtentsPageSize(210, 297)
+
+# Convert the settings to XML and send it to DocConverter
+$cadXML = $oCAD.Serialize()
+$oDC.SetAddonOptions($cadXML)
+
+# Release Object
+$oCAD = $null
+
+# Convert the file to PDF
+$results = $oDC.ConvertToPDF($strPath + "sample.dwg", $strPath + "new.pdf")
+If ($results.DocConverterStatus -ne 0)
+{
+  ErrorHandler ("ConvertToPDF", $results), $results.DocConverterStatus
+}
+
+# Release Object
+$oDC = $null
+
+# Process Complete
+Write-Host "Done!"
+
+# Error Handling
+function ErrorHandler($method, $oResult, $errorStatus)
+{
+  Write-Host("Error with ${method}: ")
+  Write-Host("$errorStatus")
+  Write-Host("$oResult.details")
+  Exit 1
+}

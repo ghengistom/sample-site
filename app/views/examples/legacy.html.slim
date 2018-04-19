@@ -1,0 +1,20 @@
+.row
+  .col-md-3
+    h3 Products
+    h4 Current
+    - @active.each do |p|
+      div
+        = render :partial => "product_versions_list", :locals => {:product => p, :versions => p.versions.active.to_a}
+      
+    - if user_signed_in?
+      h4 Future
+      - @future.each do |p|
+        div
+          = render :partial => "product_versions_list", :locals => {:product => p, :versions => p.versions.future.to_a}
+    
+    h4 Legacy
+    - @legacy.each do |p|
+      = render :partial => "product_versions_list", :locals => {:product => p, :versions => p.versions.legacy.to_a}
+  
+  .col-md-9
+    = render 'example_none'

@@ -1,0 +1,29 @@
+.product_versions id="product_versions_#{potential_products.id}" data-value="#{potential_products.id}" data-text="#{potential_products.name}"
+  
+  a href="#" data-delete="true" class="fa fa-times"
+  => ""
+  strong = potential_products.name
+  
+  - versions = Array.new
+  - potential_products.versions.order("sort_order").each do |v|
+    - versions << [v.name, v.id]
+
+  br
+  
+  - version_start = unless selected.where(:product_id => potential_products.id).empty?; \
+  selected.where(:product_id => potential_products.id).first.version_id_start
+  - else
+    - versions.last[1]
+  		      
+  = select_tag "version_start_#{potential_products.id}", options_for_select(versions, version_start)
+  
+  - versions << ['','']
+
+  = " to "
+
+  - version_end = unless selected.where(:product_id => potential_products.id).empty?; \
+    selected.where(:product_id => potential_products.id).first.version_id_end ||= versions.last[1]
+  - else
+    - versions.last[1]
+
+  = select_tag "version_end_#{potential_products.id}", options_for_select(versions, version_end)

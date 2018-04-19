@@ -1,0 +1,29 @@
+<!-- Copyright (c) 2000 ActivePDF, Inc. -->
+<!-- ActivePDF WebGrabber 2016 -->
+<!-- Example generated 01/01/2000  -->
+
+<!-- Example uses the .NET DLL which requires -->
+<!-- Coldfusion 8 or above -->
+
+<CFSCRIPT>
+// Instantiate Object
+oWG = CreateObject(".NET", "APWebGrabber.WebGrabber", "C:\Program Files\activePDF\WebGrabber\bin\APWebGrabber.Net35.dll");
+
+results = oWG.ConvertToPDF();
+if(results.Get_WebGrabberStatus() != "Success") {
+  Error("ConvertToPDF", results, results.Get_WebGrabberStatus());
+}
+
+// Release Object
+oWG = 0;
+
+// Process Complete
+WriteOutput("Done!");
+
+// Error Handling
+Function Error(method, oResults, errorStatus) {
+  WriteOutput("Error with " & method & ": <br/>"
+    & errorStatus &  "<br/>"
+    & oResults.Get_details());
+}
+</CFSCRIPT>

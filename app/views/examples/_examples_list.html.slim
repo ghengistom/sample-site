@@ -1,0 +1,92 @@
+javascript:
+  function hide_all() {
+    $('.example_list').hide();
+    $('.example_list_cat').hide();
+  }
+
+  $(document).ready(function() {
+    if (typeof selected_sort === 'undefined') {
+        selected_sort = "cat";
+        $("#sort_icon").attr('class', 'fa fa-sort-alpha-asc');
+    }
+
+    $('.example_type_selector').click(function() {
+      hide_all();
+      selected_sort = "cat";
+      $("#sort_icon").attr('class', 'fa fa-sort-alpha-asc');
+      $('#' + $(this).attr('data-example-type') + '_cat').show();
+      window.location.hash = $(this).attr('data-example-type');
+      $('.example_type_selector').parent().removeClass("active");
+      $(this).parent().addClass("active");
+    });
+    
+    $('.change_sort_link').click(function() {
+      hide_all();
+      
+      current_tab = $('.active > a').attr('data-example-type');
+
+      if (selected_sort == "cat") {
+        selected_sort = "list";
+        $("#sort_icon").attr('class', 'fa fa-sort-alpha-asc text_color_apdf1');
+      } else if (selected_sort == "list") {
+        selected_sort = "cat";
+        $("#sort_icon").attr('class', 'fa fa-sort-alpha-asc');
+      }
+      
+      $('#' + current_tab + '_' + selected_sort).show();
+      $.cookie("list", selected_sort, { expires: 7, path: '/' });
+      return false;
+    });
+    
+    hide_all();
+    $('.example_default_type').show();
+    $('.example_type_selector[data-example-type="' + window.location.hash.replace('#','') + '"]').click();
+    if ( $.cookie("list") == "list" ) {
+      $('.change_sort_link:first').next().click();
+    }
+    
+  });
+
+- if user_signed_in?
+  - app_name = @product.name
+- else
+  - app_name = @product.name.gsub(' Enterprise', '').gsub(' Professional', '')
+
+h3
+  = "#{app_name} #{@version.name}"
+
+ul.nav.nav-tabs
+  - %w(advanced functions).each do |type|
+    - case type
+    - when "advanced"
+      - css_class = "active" if (@example && @example.list_type == "advanced") || @example.nil?
+    - when "functions"
+      - css_class = "active" if @example && (@example.list_type == "method" || @example.list_type == "property")
+
+    - if type == "advanced"
+      li class="#{css_class}"
+        a class="example_type_selector" data-example-type="#{type}"
+          = "How To"
+    - else
+      - unless @examples_functions.empty?
+        li class="#{css_class}"
+          a class="example_type_selector" data-example-type="#{type}"
+            = type.capitalize
+  
+  .tab_links.pull-right
+    a class="tab_button_link change_sort_link" data-toggle="tooltip" title="Toggle sorting by category or alphabetically"
+      i.fa.fa-sort-alpha-asc#sort_icon
+
+.tab-content
+  - {"advanced" => @examples_advanced, "functions" => @examples_functions}.each do |n,e|
+    - current_list_type_class = case n
+    - when "advanced"
+      - "example_default_type" if (@example && @example.list_type == "advanced") || @example.nil?
+    - when "functions"
+      - "example_default_type" if @example && (@example.list_type == "method" || @example.list_type == "property")
+    
+    - unless e.nil?
+      .example_list id="#{n}_list"
+        = render :partial => "examples_az_list", :locals => {:examples => e}
+      .example_list_cat id="#{n}_cat" class="#{current_list_type_class}"
+        = render :partial => "examples_category_list", :locals => {:examples => e}

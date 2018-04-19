@@ -1,0 +1,51 @@
+- if params.has_key?(:code)
+	- @ValidExample = false
+	- case @language
+	- when "cs"
+		- if @example.cs
+			- @ValidExample = true	  	  
+	- when "vb"
+		- if @example.vb
+			- @ValidExample = true	  
+	- when "vbs"
+		- if @example.vbs
+			- @ValidExample = true
+	- when "asp"
+		- if @example.asp
+			- @ValidExample = true	  
+	- when "php"
+		- if @example.php
+			- @ValidExample = true	  
+	- when "cfm"
+		- if @example.cfm
+			- @ValidExample = true	  
+	- when "rb"
+		- if @example.rb
+			- @ValidExample = true
+	- when "ps1"
+		- if @example.ps1
+			- @ValidExample = true
+	- when "shell"
+		- if @example.shell
+			- @ValidExample = true
+	- when "html"
+		- if @example.html
+			- @ValidExample = true
+	- if @ValidExample
+		= render "example_code_calls"
+	- else
+		div.code_result
+			= "#{@language} is not available with this example."
+- else
+	.row
+		.col-md-3
+			= render "examples_list"
+			= render "snippets_for_product"
+		.col-md-9
+			- if @example
+				= render "example_content"
+				/ Related
+				/ = render "related"
+			- else
+				= render "example_none"
+			

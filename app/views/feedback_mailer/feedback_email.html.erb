@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Feedback: <%= @example.title %></title>
+</head>
+<body>
+	<p>
+		<%= link_to @example.title, example_id_url(:id => @example.id, :language => @feedback.content.split('-')[2], :host => "examples.activepdf.com") %> - <%= @feedback.content.split('-')[2] %>
+	</p>
+	<p>Feedback from <%= @feedback.from_name %> &lt; <%= @feedback.from_email %> &gt;</p>
+	<blockquote><%= simple_format @feedback.comment %></blockquote>
+</body>
+</html>

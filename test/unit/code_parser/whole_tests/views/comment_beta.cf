@@ -1,0 +1,19 @@
+<!-- Copyright (c) 2000 ActivePDF, Inc. -->
+<!-- ActivePDF Toolkit Professional 2012 -->
+<!-- Example generated 01/01/2000 (beta) -->
+
+<!-- Example uses the .NET DLL which requires -->
+<!-- Coldfusion 8 or above -->
+
+<CFSCRIPT>
+// Instantiate Object
+oTK = CreateObject(".NET", "APToolkitNET.Toolkit", "C:\Program Files\activePDF\Toolkit\DotNetComponent\2.0\APToolkitNET.dll");
+
+// asdf
+
+// Release Object
+oTK = 0;
+
+// Process Complete
+WriteOutput("Done!");
+</CFSCRIPT>

@@ -1,0 +1,15 @@
+.example_code
+  pre id="#{id}" = code
+  - if error && can?(:manage, :all)
+    pre id="editor" = error.inspect
+    pre id="editor" = error.backtrace.join("\n")
+  = render :partial => 'ace_editor', :locals => {:id => id, :language => language}
+  
+  / Solid Documents branding
+  - solid_array = [810, 811, 907, 908, 909, 910, 911]
+  - if solid_array.include? @example.id
+    p.text-center
+      = "Portions of this product Copyright [2001-#{Time.now.year}] Solid Documents"
+    p.text-center 
+      = image_tag 'solidpdf.png', :class => "solidlogo"
+
